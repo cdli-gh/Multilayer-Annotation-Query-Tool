@@ -4,27 +4,29 @@
 	<title>CQP_SPARQL_Query Generator</title>
 	<script src="js/index.js"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<style type="text/css">
 		.row{
 			margin: 1%;
 		}
-		.word_list{
-
-		}
 		.word{
-			width: 20vw;
+			margin: 1%;  
 		}
 	</style>
 </head>
 <body style="padding:5vw;">
 	
 	<div id="word_list">
-		<div class="word">
-			<div class="word_property_list">
+		<div class="word card">
+			<div class="card-header">
+				Word-1
+			</div>
+			<div class="word_property_list card-body container">		
 				<select class="property_name">
-					<option value="None" selected deactivated>Feature</option>
+					<option value="None" selected disabled>Feature</option>
 					<option value="conll:FORM">conll:FORM</option>
 					<option value="conll:LEMMA">conll:LEMMA</option>
 					<option value="conll:UPOSTAG">conll:UPOSTAG</option>
@@ -32,9 +34,8 @@
 					<option value="conll:FEATS">conll:FEATS</option>
 					<option value="conll:DEPREL">conll:DEPREL</option>	
 				</select>
-				&emsp;<input type="text" class="property_value">	
-				<br>
-			</div>
+				&emsp;<input type="text" class="property_value"><br>		
+			</div> 
 			<button type="submit" onclick="add_property(this)">Add Property</button>
 		</div>
 	</div>
@@ -47,8 +48,5 @@
 	<pre id="generated_query">
 		
 	</pre>
-		<!-- <button type="submit" onclick="add_node()" >Add a Node</button> -->
-		<!-- <button type="submit" onclick="add_dependency()" >Add a Dependency</button> -->
-	
 </body>
 </html>

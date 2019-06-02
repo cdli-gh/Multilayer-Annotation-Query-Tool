@@ -1,11 +1,14 @@
-var query="";
+var counter=1;
 function add_word(button){
+	window.counter+=1;
 	word=`
-	<hr>
-	<div class="word">
-		<div class="word_property_list">
+	<div class="word card">
+		<div class="card-header">
+			Word-${window.counter}
+		</div>
+		<div class="word_property_list card-body">
 			<select class="property_name">
-				<option value="None" selected deactivated>Feature</option>
+				<option value="None" selected disabled>Feature</option>
 				<option value="conll:FORM">conll:FORM</option>
 				<option value="conll:LEMMA">conll:LEMMA</option>
 				<option value="conll:UPOSTAG">conll:UPOSTAG</option>
@@ -13,9 +16,8 @@ function add_word(button){
 				<option value="conll:FEATS">conll:FEATS</option>
 				<option value="conll:DEPREL">conll:DEPREL</option>	
 			</select>
-			&emsp;<input type="text" class="property_value">	
-			<br>	
-		</div>
+			&emsp;<input type="text" class="property_value"><br>		
+		</div> 
 		<button type="submit" onclick="add_property(this)">Add Property</button>
 	</div>
 	`;
