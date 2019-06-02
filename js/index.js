@@ -6,17 +6,19 @@ function add_word(button){
 		<div class="card-header">
 			Word-${window.counter}
 		</div>
-		<div class="word_property_list card-body">
-			<select class="property_name">
-				<option value="None" selected disabled>Feature</option>
-				<option value="conll:FORM">conll:FORM</option>
-				<option value="conll:LEMMA">conll:LEMMA</option>
-				<option value="conll:UPOSTAG">conll:UPOSTAG</option>
-				<option value="conll:XPOSTAG">conll:XPOSTAG</option>
-				<option value="conll:FEATS">conll:FEATS</option>
-				<option value="conll:DEPREL">conll:DEPREL</option>	
-			</select>
-			&emsp;<input type="text" class="property_value"><br>		
+		<div class="word_property_list card-body" style="overflow: auto;height: 20vh;">			
+			<div class="card" style="padding: 1%;width: 20vw; margin: 1%;float: left;">	
+				<select class="property_name" style="width: 100%;">
+					<option value="None" selected disabled>Feature</option>
+					<option value="conll:FORM">conll:FORM</option>
+					<option value="conll:LEMMA">conll:LEMMA</option>
+					<option value="conll:UPOSTAG">conll:UPOSTAG</option>
+					<option value="conll:XPOSTAG">conll:XPOSTAG</option>
+					<option value="conll:FEATS">conll:FEATS</option>
+					<option value="conll:DEPREL">conll:DEPREL</option>	
+				</select>
+				<input type="text" class="property_value" style="width: 100%;">
+			</div>	
 		</div> 
 		<button type="submit" onclick="add_property(this)">Add Property</button>
 	</div>
@@ -26,17 +28,18 @@ function add_word(button){
 function add_property(block){
 	var properties = block.parentElement.getElementsByClassName("word_property_list")[0];
 	var property_select_option=`
-	<select class="property_name">
-		<option value="None" selected deactivated>Feature</option>
-		<option value="conll:FORM">conll:FORM</option>
-		<option value="conll:LEMMA">conll:LEMMA</option>
-		<option value="conll:UPOSTAG">conll:UPOSTAG</option>
-		<option value="conll:XPOSTAG">conll:XPOSTAG</option>
-		<option value="conll:FEATS">conll:FEATS</option>
-		<option value="conll:DEPREL">conll:DEPREL</option>	
-	</select>
-	&emsp;<input type="text" class="property_value">	
-	<br>
+	<div class="card" style="padding: 1%;width: 20vw; margin: 1%;float: left;">	
+		<select class="property_name" style="width: 100%;">
+			<option value="None" selected disabled>Feature</option>
+			<option value="conll:FORM">conll:FORM</option>
+			<option value="conll:LEMMA">conll:LEMMA</option>
+			<option value="conll:UPOSTAG">conll:UPOSTAG</option>
+			<option value="conll:XPOSTAG">conll:XPOSTAG</option>
+			<option value="conll:FEATS">conll:FEATS</option>
+			<option value="conll:DEPREL">conll:DEPREL</option>	
+		</select>
+		<input type="text" class="property_value" style="width: 100%;">
+	</div>
 	`;
 	properties.innerHTML+=property_select_option;
 }
