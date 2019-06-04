@@ -1,17 +1,17 @@
-var counter=0;
+// var counter=0;
 function add_word(button){
-	window.counter+=1;
+	// window.counter+=1;
 
 	main_div=document.createElement('div');
 	main_div.className="word card";
 	
 	div1=document.createElement('div');
 	div1.className="card-header";
-	div1.appendChild(document.createTextNode("Word-"+window.counter));
+	// div1.appendChild(document.createTextNode("Word-"+window.counter));
 	
 	div2=document.createElement('div');
 	div2.className="word_property_list card-body";
-	div2.style="overflow: auto;height: 20vh;";
+	div2.style="overflow: auto;max-height: 25vh;";
 	
 	button1=document.createElement("button");
 	button1.type="submit";
@@ -23,7 +23,7 @@ function add_word(button){
 	button2.type="submit";
 	button2.setAttribute("onclick","add_property(this)");
 	button2.appendChild(document.createTextNode("Add Property"));
-	button2.style="float: right;";
+	button2.style="float: left;";
 	
 	div1.appendChild(button1);
 	div1.appendChild(button2);
@@ -71,9 +71,18 @@ function add_property(block){
 	input.type="text";
 	input.className="property_value";
 	input.style="width:100%;margin:1%;";
+
+	del_button=document.createElement("button");
+	del_button.type="submit";
+	del_button.setAttribute("onclick","delete_property(this)");
+	del_button.appendChild(document.createTextNode("Delete Property"));
+	del_button.style="width:100%;margin:1%;";
+	
+
 	div.appendChild(select1);
 	div.appendChild(select2);
 	div.appendChild(input);
+	div.appendChild(del_button);
 
 	properties.appendChild(div);
 }
@@ -116,4 +125,9 @@ function generate_query(){
 function delete_word(block){
 	var word=block.parentElement.parentElement;
 	word.remove();
+}
+
+function delete_property(block){
+	var prop=block.parentElement;
+	prop.remove();	
 }
