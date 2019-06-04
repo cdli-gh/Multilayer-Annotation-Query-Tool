@@ -59,7 +59,7 @@ function add_property(block){
 	select2=document.createElement("select");
 	select2.className="property_rel";
 	select2.style="width: 25%;margin:1%;";
-	options2=["is","is not"]
+	options2=["is","is not"];
 	for(i=0;i<options2.length;i++){
 		x=document.createElement("option");
 		x.text=options2[i];
@@ -72,16 +72,23 @@ function add_property(block){
 	input.className="property_value";
 	input.style="width:100%;margin:1%;";
 
+	or_button=document.createElement("button");
+	or_button.type="submit";
+	or_button.setAttribute("onclick","or_property(this)");
+	or_button.appendChild(document.createTextNode("OR"));
+	or_button.style="width:48%;float:left;";
+
 	del_button=document.createElement("button");
 	del_button.type="submit";
 	del_button.setAttribute("onclick","delete_property(this)");
-	del_button.appendChild(document.createTextNode("Delete Property"));
-	del_button.style="width:100%;margin:1%;";
+	del_button.appendChild(document.createTextNode("Delete"));
+	del_button.style="width:48%;float:right;";
 	
 
 	div.appendChild(select1);
 	div.appendChild(select2);
 	div.appendChild(input);
+	div.appendChild(or_button);
 	div.appendChild(del_button);
 
 	properties.appendChild(div);
@@ -122,6 +129,9 @@ function generate_query(){
 	block.innerHTML=query;
 }
 
+function or_property(block){
+	var prop=block.parentElement;
+}
 function delete_word(block){
 	var word=block.parentElement.parentElement;
 	word.remove();
