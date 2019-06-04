@@ -1,28 +1,40 @@
-var counter=1;
+var counter=0;
 function add_word(button){
 	window.counter+=1;
 
 	main_div=document.createElement('div');
 	main_div.className="word card";
+	
 	div1=document.createElement('div');
 	div1.className="card-header";
 	div1.appendChild(document.createTextNode("Word-"+window.counter));
+	
 	div2=document.createElement('div');
 	div2.className="word_property_list card-body";
 	div2.style="overflow: auto;height: 20vh;";
 	
-	button=document.createElement("button");
-	button.type="submit";
-	button.setAttribute("onclick","add_property(this)");
-	button.appendChild(document.createTextNode("Add Property"));
+	button1=document.createElement("button");
+	button1.type="submit";
+	button1.setAttribute("onclick","delete_word(this)");
+	button1.appendChild(document.createTextNode("Delete Word"));
+	button1.style="float: right;";
+
+	button2=document.createElement("button");
+	button2.type="submit";
+	button2.setAttribute("onclick","add_property(this)");
+	button2.appendChild(document.createTextNode("Add Property"));
+	button2.style="float: right;";
+	
+	div1.appendChild(button1);
+	div1.appendChild(button2);
+
 	main_div.appendChild(div1);
 	main_div.appendChild(div2);
-	main_div.appendChild(button);
 	
 	document.getElementById('word_list').appendChild(main_div);
 }
 function add_property(block){
-	var properties = block.parentElement.getElementsByClassName("word_property_list")[0];
+	var properties = block.parentElement.parentElement.getElementsByClassName("word_property_list")[0];
 	
 	div=document.createElement("div");
 	div.className="card";
@@ -99,4 +111,9 @@ function generate_query(){
 		query+=" ] "
 	}
 	block.innerHTML=query;
+}
+
+function delete_word(block){
+	var word=block.parentElement.parentElement;
+	word.remove();
 }
