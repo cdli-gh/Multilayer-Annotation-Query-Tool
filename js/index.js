@@ -112,9 +112,9 @@ function generate_query(){
 		inner_card=word_prop_list[i].getElementsByClassName("inside_card");
 		for(j=0;j<inner_card.length;j++){
 			if(j!=0){
-				query+="&";
+				query+=" & ";
 			}
-			query+="(";
+			query+=" ( ";
 			
 			property_name=inner_card[j].getElementsByClassName("property_name");
 			property_rel=inner_card[j].getElementsByClassName("property_rel");
@@ -122,20 +122,20 @@ function generate_query(){
 			
 			for(k=0;k<property_name.length;k++){
 				if(k!=0)
-					query+="|"
+					query+=" | "
 				query+=property_name[k].value;
 				if(property_rel[k].value=="is")
-					query+="=";
+					query+=" = ";
 				else
-					query+="!=";
+					query+=" != ";
 				query+="\""+property_value[k].value+"\"";
 			}
-			query+=")"
+			query+=" ) "
 		}
-		query+="]";
+		query+=" ] ";
 	}
-	console.log(query);
-	// block.innerHTML=query;
+	// console.log(query);
+	block.innerHTML=query;
 	// update this also for reading OR queries
 }
 
