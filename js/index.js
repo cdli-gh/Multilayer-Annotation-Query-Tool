@@ -108,31 +108,34 @@ function generate_query(){
 	query="";
 
 	for(i=0;i<word_prop_list.length;i++){
-		
-		var properties=word_prop_list[i].getElementsByClassName("property_name");
-		var properties_rel=word_prop_list[i].getElementsByClassName("property_rel");
-		var properties_value=word_prop_list[i].getElementsByClassName("property_value");
-		console.log(properties_rel);
-
-		query+=" [ "
-		
-		for(j=0;j<properties.length;j++){
+		query+="[ ";
+		inner_card=word_prop_list[i].getElementsByClassName("inside_card");
+		for(j=0;j<inner_card.length;j++){
 			if(j!=0){
-				query+=" & ";
+				query+="&";
 			}
-			query += properties[j].value; 
-			if(properties_rel[j].value=="is"){
-				query+="=";
+			query+="(";
+			
+			property_name=inner_card[j].getElementsByClassName("property_name");
+			property_rel=inner_card[j].getElementsByClassName("property_rel");
+			property_value=inner_card[j].getElementsByClassName("property_value");
+			
+			for(k=0;k<property_name.length;k++){
+				if(k!=0)
+					query+="|"
+				query+=property_name[k].value;
+				if(property_rel[k].value=="is")
+					query+="=";
+				else
+					query+="!=";
+				query+="\""+property_value[k].value+"\"";
 			}
-			else if(properties_rel[j].value=="is not"){
-				query+="!=";
-			}
-			query+= "\"" + properties_value[j].value + "\"";
-
+			query+=")"
 		}
-		query+=" ] "
+		query+="]";
 	}
-	block.innerHTML=query;
+	console.log(query);
+	// block.innerHTML=query;
 	// update this also for reading OR queries
 }
 
