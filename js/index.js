@@ -134,9 +134,7 @@ function generate_query(){
 		}
 		query+=" ] ";
 	}
-	// console.log(query);
 	block.innerHTML=query;
-	// update this also for reading OR queries
 }
 
 function or_property(block){
