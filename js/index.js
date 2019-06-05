@@ -108,7 +108,7 @@ function generate_query(){
 	query="";
 
 	for(i=0;i<word_prop_list.length;i++){
-		query+="[ ";
+		query+=" [ ";
 		inner_card=word_prop_list[i].getElementsByClassName("inside_card");
 		for(j=0;j<inner_card.length;j++){
 			if(j!=0){
@@ -134,7 +134,7 @@ function generate_query(){
 		}
 		query+=" ] ";
 	}
-	block.innerHTML=query;
+	block.value=query;
 }
 
 function or_property(block){
