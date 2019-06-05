@@ -39,6 +39,10 @@ function add_property(block){
 	div=document.createElement("div");
 	div.className="card";
 	div.style="padding: 1%;width: 25vw;margin: 1%;float: left;display: inline-block;";
+	
+	div_in=document.createElement("div");
+	div_in.className="inside_card";
+	
 	select1=document.createElement("select");
 	select1.className="property_name";
 	select1.style="width: 70%;margin:1%;";
@@ -85,9 +89,11 @@ function add_property(block){
 	del_button.style="width:48%;float:right;";
 	
 
-	div.appendChild(select1);
-	div.appendChild(select2);
-	div.appendChild(input);
+	div_in.appendChild(select1);
+	div_in.appendChild(select2);
+	div_in.appendChild(input);
+	
+	div.appendChild(div_in);
 	div.appendChild(or_button);
 	div.appendChild(del_button);
 
@@ -127,10 +133,49 @@ function generate_query(){
 		query+=" ] "
 	}
 	block.innerHTML=query;
+	// update this also for reading OR queries
 }
 
 function or_property(block){
-	var prop=block.parentElement;
+	var prop=block.parentElement.getElementsByClassName("inside_card")[0];
+
+	select1=document.createElement("select");
+	select1.className="property_name";
+	select1.style="width: 70%;margin:1%;";
+	options1=["FORM","LEMMA","UPOSTAG","XPOSTAG","FEATS","DEPREL"];
+	x=document.createElement("option");
+	x.text="Feature";
+	x.value="None";
+	x.selected=true;
+	x.disabled=true;
+	select1.appendChild(x);
+	for(i=0;i<options1.length;i++){
+		x=document.createElement("option");
+		x.text=options1[i];
+		x.value=options1[i];
+		select1.appendChild(x);
+	}
+	
+	select2=document.createElement("select");
+	select2.className="property_rel";
+	select2.style="width: 25%;margin:1%;";
+	options2=["is","is not"];
+	for(i=0;i<options2.length;i++){
+		x=document.createElement("option");
+		x.text=options2[i];
+		x.value=options2[i];
+		select2.appendChild(x);
+	}
+
+	input=document.createElement("input");
+	input.type="text";
+	input.className="property_value";
+	input.style="width:100%;margin:1%;";
+
+	prop.appendChild(select1);
+	prop.appendChild(select2);
+	prop.appendChild(input);
+	
 }
 function delete_word(block){
 	var word=block.parentElement.parentElement;
