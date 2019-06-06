@@ -121,14 +121,19 @@ function generate_query(){
 			property_value=inner_card[j].getElementsByClassName("property_value");
 			
 			for(k=0;k<property_name.length;k++){
-				if(k!=0)
-					query+=" | "
-				query+=property_name[k].value;
-				if(property_rel[k].value=="is")
-					query+=" = ";
-				else
-					query+=" != ";
-				query+="\""+property_value[k].value+"\"";
+				name=property_name[k].value;
+				rel=property_rel[k].value;
+				value=property_value[k].value;
+				if(name!="None" && value!=""){
+					if(k!=0)
+						query+=" | "
+					query+=name;
+					if(rel=="is")
+						query+=" = ";
+					else
+						query+=" != ";
+					query+="\""+value+"\"";
+				}
 			}
 			query+=" ) "
 		}
