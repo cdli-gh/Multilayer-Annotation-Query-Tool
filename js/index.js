@@ -146,10 +146,11 @@ function generate_query(){
 				value=property_value[k].value;
 				
 				if(name!="None" && value!=""){
-					if(k!=0)
+					if(has_info==true)
 						query_in+=" | "
 					query_in+=name;
 					has_info=true;
+					x=true;
 					if(rel.classList.contains("fa-equals"))
 						query_in+=" = ";
 					else if(rel.classList.contains("fa-not-equal"))
