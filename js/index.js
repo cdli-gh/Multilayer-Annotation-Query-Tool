@@ -110,8 +110,12 @@ function add_property(block){
 	div.appendChild(or_button);
 	div.appendChild(del_button);
 	
-	if(properties.childElementCount>0)
-		properties.appendChild(document.createTextNode("AND"));	
+	if(properties.childElementCount>0){
+		and=document.createElement("div");
+		and.appendChild(document.createTextNode("AND"));
+		and.style="text-align:center;color:#666666;display: flex;justify-content: center;flex-direction: column;text-align: center;";
+		properties.appendChild(and);	
+	}
 	
 	properties.appendChild(div);
 
@@ -169,6 +173,10 @@ function generate_query(){
 function or_property(block){
 	var prop=block.parentElement.getElementsByClassName("inside_card")[0];
 
+	or=document.createElement("div");
+	or.appendChild(document.createTextNode("--OR--"));
+	or.style="text-align:center;color:#666666;";
+	
 	select1=document.createElement("select");
 	select1.className="property_name";
 	select1.style="width: 100%;";
@@ -196,7 +204,7 @@ function or_property(block){
 	input.className="property_value";
 	input.style="width:100%;margin: 1%;";
 
-	prop.appendChild(document.createTextNode("OR"));
+	prop.appendChild(or);
 	prop.appendChild(select1);
 	prop.appendChild(select2);
 	prop.appendChild(input);
