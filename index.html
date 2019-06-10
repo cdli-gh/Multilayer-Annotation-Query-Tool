@@ -2,6 +2,8 @@
 <html>
 <head>
 	<title>CQP_SPARQL_Query Generator</title>
+	<script src="https://kit.fontawesome.com/bd8373f511.js"></script>
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> -->
 	<script src="js/index.js"></script>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -20,14 +22,39 @@
 </head>
 <body style="padding:5vw;">
 	<textarea id="generated_query" class="form-control" style="height:10vh; overflow-y: auto; width:100%;">
-
 	</textarea>
 	<br>
 	<button type="submit" onclick="add_word()">ADD WORD</button>
 	<button type="submit" onclick="generate_query()">GENERATE QUERY</button>	
-	<div id="word_list">
-		
+	<div id="word_list">		
+		<!-- <div class="word card">
+			<div class="card-header">
+				<button type="submit" onclick="delete_word(this)" style="float: right;">Delete Word</button>
+				<button type="submit" onclick="add_property(this)" style="float: left;">Add Property</button>
+			</div>
+			<div class="word_property_list card-body" style="display:flex;flex-direction: row; flex-wrap: nowrap; flex-shrink: 0;overflow-x: auto;">
+				<div class="card" style="min-width: 10vw; min-height: 10vh; margin:1%;">
+					<div class="card" style="min-width: 8vw;min-height: 5vw;margin: 1%;">hello world</div>
+					<div class="card" style="min-width: 8vw;min-height: 5vw;margin: 1%;">hello world</div>
+					<div class="card" style="min-width: 8vw;min-height: 5vw;margin: 1%;">hello world</div>
+					<div class="card" style="min-width: 8vw;min-height: 5vw;margin: 1%;">hello world</div>
+				</div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+				<div class="card" style="min-width: 10vw;height: 10vh; margin: 1%;"></div>
+			</div>
+		</div> -->
 	</div>
+
 	
 	
 </body>
