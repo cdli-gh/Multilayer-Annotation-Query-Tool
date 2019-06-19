@@ -1,6 +1,6 @@
-// var counter=0;
+var counter=0;
 function add_word(button){
-	// window.counter+=1;
+	window.counter+=1;
 
 	main_div=document.createElement('div');
 	main_div.className="word card";
@@ -30,7 +30,8 @@ function add_word(button){
 	// <input type="text" name="word_name" class="form-control" style="float: right; width: 25%;margin: 0% 1%;" placeholder="Word Variable">
 	var_input=document.createElement("input");
 	var_input.type="text";
-	var_input.className="form-control";
+	var_input.value="w"+window.counter;
+	var_input.className="variable_name form-control";
 	var_input.style="width:30%;margin: 0% 1%;float:right;";
 	var_input.placeholder="Variable Name";
 
@@ -148,7 +149,8 @@ function generate_query(){
 	query="";
 
 	for(i=0;i<word_prop_list.length;i++){
-		query+=" [ ";
+		varible_name=word_prop_list[i].parentElement.children[0].getElementsByClassName("variable_name")[0].value
+		query+=varible_name+":[ ";
 		inner_card=word_prop_list[i].getElementsByClassName("inside_card");
 		for(j=0;j<inner_card.length;j++){
 			query_in=" ( ";
@@ -279,42 +281,68 @@ function add_dependency(button){
 
 	div1.appendChild(button1)
 
-	// input1
-	input1=document.createElement("input");
-	input1.type="text";
-	input1.className="word_left form-control";
-	input1.style="width:30%;margin: 1%;";
-	input1.placeholder="Left Variable";
+	word_list=[];
+	words=document.getElementsByClassName("word");
+	for(i=0;i<words.length;i++){
+		word_list.push(words[i].children[0].getElementsByClassName("variable_name")[0].value);
+	}
 
 
-	// select1
+
+	// select1 
 	select1=document.createElement("select");
-	select1.className="dependency_type";
-	select1.style="width: 40%;margin: 0% 1%;";
+	select1.className="word_left";
+	select1.style="flex:1;margin: 1%;";
+	x=document.createElement("option");
+	x.text="Left Variable";
+	x.value="None";
+	x.selected=true;
+	x.disabled=true;
+	select1.appendChild(x);
+	for(i=0;i<word_list.length;i++){
+		x=document.createElement("option");
+		x.text=word_list[i];
+		x.value=word_list[i];
+		select1.appendChild(x);
+	}
+
+	// select2
+	select2=document.createElement("select");
+	select2.className="dependency_type";
+	select2.style="flex:1;margin:1%;";
 	// options1=["nextWord"];
 	x=document.createElement("option");
 	x.text="Next Word";
 	x.value="nextWord";
 	x.selected=true;
-	select1.appendChild(x);
+	select2.appendChild(x);
 	
 	x=document.createElement("option");
 	x.text="HEAD";
 	x.value="HEAD";
-	select1.appendChild(x);
+	select2.appendChild(x);
 	
 
-	// input2
-	input2=document.createElement("input");
-	input2.type="text";
-	input2.className="word_right form-control";
-	input2.style="width:30%;margin: 0% 1%;";
-	input2.placeholder="Right Variable";
-
+	// select3
+	select3=document.createElement("select");
+	select3.className="word_right";
+	select3.style="flex:1;margin:1%;";
+	x=document.createElement("option");
+	x.text="Right Variable";
+	x.value="None";
+	x.selected=true;
+	x.disabled=true;
+	select3.appendChild(x);
+	for(i=0;i<word_list.length;i++){
+		x=document.createElement("option");
+		x.text=word_list[i];
+		x.value=word_list[i];
+		select3.appendChild(x);
+	}
 	
-	div2.appendChild(input1);
 	div2.appendChild(select1);
-	div2.appendChild(input2);
+	div2.appendChild(select2);
+	div2.appendChild(select3);
 	
 
 	main_div.appendChild(div1);
