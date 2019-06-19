@@ -53,6 +53,7 @@ function add_word(button){
 
 function update_query(){
 	generate_query();
+	console.log(window.query_list);
 	document.getElementById("cqp").value=window.query_list.join(" ");
 
 	left_variables=document.getElementsByClassName("word_left");	
