@@ -287,13 +287,14 @@ function delete_property(block){
 }
 
 function inverse(sign){
-	update_query();
 	if(sign.classList.contains("fa-equals")){
 		sign.classList.replace("fa-equals","fa-not-equal");
 	}
 	else if(sign.classList.contains("fa-not-equal")){
 		sign.classList.replace("fa-not-equal","fa-equals");
 	}
+	update_query();
+
 }
 
 function delete_dependency(block){
