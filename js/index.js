@@ -68,6 +68,7 @@ function update_query(){
 function update_dropdown(drop_list){
 	original=drop_list.value.split(":")[0].trim();
 	drop_list.options.length=1;
+	drop_list.options[0].selected=true;
 	for(i=0;i<window.query_list.length;i++){
 		x=document.createElement("option");
 		v=window.query_list[i];
@@ -238,7 +239,7 @@ function or_property(block){
 	select1=document.createElement("select");
 	select1.className="property_name";
 	select1.style="width: 100%;";
-	options1=["FORM","LEMMA","UPOSTAG","XPOSTAG","FEATS","DEPREL"];
+	options1=["ID","FORM","LEMMA","UPOSTAG","XPOSTAG","FEATS","DEPREL"];
 	x=document.createElement("option");
 	x.text="Feature";
 	x.value="None";
@@ -272,6 +273,7 @@ function or_property(block){
 function delete_word(block){
 	var word=block.parentElement.parentElement;
 	word.remove();
+	update_query();
 }
 
 function delete_property(block){
@@ -280,7 +282,8 @@ function delete_property(block){
 	if(prop.previousSibling!=null){
 		prop.previousSibling.remove();
 	}
-	prop.remove();	
+	prop.remove();
+	update_query();	
 }
 
 function inverse(sign){
