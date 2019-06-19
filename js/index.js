@@ -1,4 +1,5 @@
 var counter=0;
+var query_list=[];
 function add_word(button){
 	window.counter+=1;
 
@@ -32,8 +33,8 @@ function add_word(button){
 	var_input.type="text";
 	var_input.value="w"+window.counter;
 	var_input.className="variable_name form-control";
-	var_input.style="width:30%;margin: 0% 1%;float:right;";
-	var_input.placeholder="Variable Name";
+	var_input.style="width:10%;margin: 0% 1%;float:right;";
+	var_input.disabled=true;	
 
 	div1.appendChild(button1);
 	div1.appendChild(button2);
@@ -44,8 +45,41 @@ function add_word(button){
 	
 	document.getElementById('word_list').appendChild(main_div);
 
-	generate_query();
+	update_query();
+	
+	
+
 }
+
+function update_query(){
+	generate_query();
+	document.getElementById("cqp").value=window.query_list.join(" ");
+
+	left_variables=document.getElementsByClassName("word_left");	
+	for(i=0;i<left_variables.length;i++){
+		update_dropdown(left_variables[i]);
+	}
+	right_variables=document.getElementsByClassName("word_right");	
+	for(i=0;i<right_variables.length;i++){
+		update_dropdown(right_variables[i]);
+	}
+}
+
+function update_dropdown(drop_list){
+	original=drop_list.value.split(":")[0].trim();
+	drop_list.options.length=1;
+	for(i=0;i<window.query_list.length;i++){
+		x=document.createElement("option");
+		v=window.query_list[i];
+		if(v.split(":")[0].trim()==original){
+			x.selected=true;	
+		}
+		x.text=v;
+		x.value=v;
+		drop_list.appendChild(x);		
+	}
+}
+
 function add_property(block){
 	var properties = block.parentElement.parentElement.getElementsByClassName("word_property_list")[0];
 		
@@ -94,6 +128,7 @@ function add_property(block){
 	input.type="text";
 	input.className="property_value";
 	input.style="width:100%;margin: 1%;";
+	input.setAttribute("onchange","update_query()");
 
 	or_button=document.createElement("button");
 	or_button.type="submit";
@@ -137,58 +172,60 @@ function add_property(block){
 	}
 	
 	properties.appendChild(div);
-
-	generate_query();
 }
+function get_word_query(word_prop){
+	query="";
+	varible_name=word_prop.parentElement.children[0].getElementsByClassName("variable_name")[0].value;
+	query+=varible_name+":[ ";
+	inner_card=word_prop.getElementsByClassName("inside_card");
+	for(j=0;j<inner_card.length;j++){
+		query_in=" ( ";
+		has_info=false;
 
+		property_name=inner_card[j].getElementsByClassName("property_name");
+		property_rel=inner_card[j].getElementsByClassName("property_rel");
+		property_value=inner_card[j].getElementsByClassName("property_value");
+		
+		for(k=0;k<property_name.length;k++){
+			name=property_name[k].value;
+			rel=property_rel[k];
+			value=property_value[k].value;
+			
+			if(name!="None" && value!=""){
+				if(has_info==true)
+					query_in+=" | "
+				query_in+="conll:"+name;
+				has_info=true;
+				x=true;
+				if(rel.classList.contains("fa-equals"))
+					query_in+=" = ";
+				else if(rel.classList.contains("fa-not-equal"))
+					query_in+=" != ";
+				query_in+="\""+value+"\"";
+			}
+		}
+		query_in+=" ) ";
+		if(has_info){
+			if(j!=0){
+				query+=" & ";
+			}
+			query+=query_in;
+		}
+	}
+	query+=" ] ";
+	return query;
+}
 function generate_query(){
 	
 	var block=document.getElementById("cqp");
 	var word_prop_list=document.getElementsByClassName("word_property_list");
 	
-	query="";
-
+	word_list=[];
+	
 	for(i=0;i<word_prop_list.length;i++){
-		varible_name=word_prop_list[i].parentElement.children[0].getElementsByClassName("variable_name")[0].value
-		query+=varible_name+":[ ";
-		inner_card=word_prop_list[i].getElementsByClassName("inside_card");
-		for(j=0;j<inner_card.length;j++){
-			query_in=" ( ";
-			has_info=false;
-
-			property_name=inner_card[j].getElementsByClassName("property_name");
-			property_rel=inner_card[j].getElementsByClassName("property_rel");
-			property_value=inner_card[j].getElementsByClassName("property_value");
-			
-			for(k=0;k<property_name.length;k++){
-				name=property_name[k].value;
-				rel=property_rel[k];
-				value=property_value[k].value;
-				
-				if(name!="None" && value!=""){
-					if(has_info==true)
-						query_in+=" | "
-					query_in+="conll:"+name;
-					has_info=true;
-					x=true;
-					if(rel.classList.contains("fa-equals"))
-						query_in+=" = ";
-					else if(rel.classList.contains("fa-not-equal"))
-						query_in+=" != ";
-					query_in+="\""+value+"\"";
-				}
-			}
-			query_in+=" ) ";
-			if(has_info){
-				if(j!=0){
-					query+=" & ";
-				}
-				query+=query_in;
-			}
-		}
-		query+=" ] ";
+		word_list.push(get_word_query(word_prop_list[i]));
 	}
-	block.value=query;
+	window.query_list=word_list;
 }
 
 function or_property(block){
@@ -224,6 +261,7 @@ function or_property(block){
 	input.type="text";
 	input.className="property_value";
 	input.style="width:100%;margin: 1%;";
+	input.setAttribute("onchange","update_query()");
 
 	prop.appendChild(or);
 	prop.appendChild(select1);
@@ -246,6 +284,7 @@ function delete_property(block){
 }
 
 function inverse(sign){
+	update_query();
 	if(sign.classList.contains("fa-equals")){
 		sign.classList.replace("fa-equals","fa-not-equal");
 	}
@@ -282,17 +321,15 @@ function add_dependency(button){
 	div1.appendChild(button1)
 
 	word_list=[];
-	words=document.getElementsByClassName("word");
-	for(i=0;i<words.length;i++){
-		word_list.push(words[i].children[0].getElementsByClassName("variable_name")[0].value);
+	word_prop_list=document.getElementsByClassName("word_property_list");
+	for(i=0;i<word_prop_list.length;i++){
+		word_list.push(get_word_query(word_prop_list[i]));
 	}
-
-
 
 	// select1 
 	select1=document.createElement("select");
 	select1.className="word_left";
-	select1.style="flex:1;margin: 1%;";
+	select1.style="flex:1;margin: 1%; width:30%;";
 	x=document.createElement("option");
 	x.text="Left Variable";
 	x.value="None";
@@ -309,7 +346,7 @@ function add_dependency(button){
 	// select2
 	select2=document.createElement("select");
 	select2.className="dependency_type";
-	select2.style="flex:1;margin:1%;";
+	select2.style="flex:1;margin:1%;width:30%;";
 	// options1=["nextWord"];
 	x=document.createElement("option");
 	x.text="Next Word";
@@ -326,7 +363,7 @@ function add_dependency(button){
 	// select3
 	select3=document.createElement("select");
 	select3.className="word_right";
-	select3.style="flex:1;margin:1%;";
+	select3.style="flex:1;margin:1%;width:30%;";
 	x=document.createElement("option");
 	x.text="Right Variable";
 	x.value="None";
