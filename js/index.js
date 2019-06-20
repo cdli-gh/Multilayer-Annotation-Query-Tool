@@ -55,7 +55,7 @@ function add_word(button){
 function update_query(){
 	generate_query();
 	console.log(window.word_query_list);
-	document.getElementById("cqp").value=window.word_query_list.join(" [ ]* ");
+	document.getElementById("cqp").value=window.word_query_list.join(" ");
 
 	left_variables=document.getElementsByClassName("word_left");
 	for(i=0;i<left_variables.length;i++){
@@ -396,20 +396,21 @@ function add_dependency(button){
 	}
 
 	// select2
-	select2=document.createElement("select");
+	select2=document.createElement("span");
 	select2.className="dependency_type";
-	select2.style="flex:1;margin:1%;width:30%;";
+	select2.style="flex:1;margin:1%;width:30%;text-align:center;";
+	select2.appendChild(document.createTextNode("HEAD"));
 	// options1=["nextWord"];
-	x=document.createElement("option");
-	x.text="Next Word";
-	x.value="nextWord";
-	x.selected=true;
-	select2.appendChild(x);
+	// x=document.createElement("option");
+	// x.text="Next Word";
+	// x.value="nextWord";
+	// x.selected=true;
+	// select2.appendChild(x);
 	
-	x=document.createElement("option");
-	x.text="HEAD";
-	x.value="HEAD";
-	select2.appendChild(x);
+	// x=document.createElement("option");
+	// x.text="HEAD";
+	// x.value="HEAD";
+	// select2.appendChild(x);
 	
 
 	// select3
