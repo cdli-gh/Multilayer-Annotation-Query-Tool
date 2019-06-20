@@ -1,5 +1,6 @@
 var counter=0;
-var query_list=[];
+var word_query_list=[];
+var dependency_query_list=[];
 function add_word(button){
 	window.counter+=1;
 
@@ -53,34 +54,62 @@ function add_word(button){
 
 function update_query(){
 	generate_query();
-	console.log(window.query_list);
-	document.getElementById("cqp").value=window.query_list.join(" [ ]* ");
+	console.log(window.word_query_list);
+	document.getElementById("cqp").value=window.word_query_list.join(" [ ]* ");
 
-	left_variables=document.getElementsByClassName("word_left");	
+	left_variables=document.getElementsByClassName("word_left");
 	for(i=0;i<left_variables.length;i++){
-		update_dropdown(left_variables[i]);
+		drop_list=left_variables[i];
+		original=drop_list.value.split(":")[0].trim();
+		drop_list.options.length=1;
+		drop_list.options[0].selected=true;
+		for(j=0;j<window.word_query_list.length;j++){
+			x=document.createElement("option");
+			v=window.word_query_list[j];
+			if(v.split(":")[0].trim()==original){
+				x.selected=true;	
+			}
+			x.text=v;
+			x.value=v;
+			drop_list.appendChild(x);		
+		}
 	}
+
 	right_variables=document.getElementsByClassName("word_right");	
 	for(i=0;i<right_variables.length;i++){
-		update_dropdown(right_variables[i]);
+		drop_list=right_variables[i];
+		original=drop_list.value.split(":")[0].trim();
+		drop_list.options.length=1;
+		drop_list.options[0].selected=true;
+		for(j=0;j<window.word_query_list.length;j++){
+			x=document.createElement("option");
+			v=window.word_query_list[j];
+			if(v.split(":")[0].trim()==original){
+				x.selected=true;	
+			}
+			x.text=v;
+			x.value=v;
+			drop_list.appendChild(x);		
+		}
 	}
 }
 
-function update_dropdown(drop_list){
-	original=drop_list.value.split(":")[0].trim();
-	drop_list.options.length=1;
-	drop_list.options[0].selected=true;
-	for(i=0;i<window.query_list.length;i++){
-		x=document.createElement("option");
-		v=window.query_list[i];
-		if(v.split(":")[0].trim()==original){
-			x.selected=true;	
-		}
-		x.text=v;
-		x.value=v;
-		drop_list.appendChild(x);		
-	}
-}
+// function update_dropdown(drop_list){
+// 	original=drop_list.value.split(":")[0].trim();
+// 	drop_list.options.length=1;
+// 	drop_list.options[0].selected=true;
+// 	for(i=0;i<window.word_query_list.length;i++){
+// 		x=document.createElement("option");
+// 		v=window.word_query_list[i];
+// 		if(v.split(":")[0].trim()==original){
+// 			x.selected=true;	
+// 		}
+// 		x.text=v;
+// 		x.value=v;
+// 		drop_list.appendChild(x);		
+// 	}
+// 	return drop_list;
+// }
 
 function add_property(block){
 	var properties = block.parentElement.parentElement.getElementsByClassName("word_property_list")[0];
@@ -217,6 +246,7 @@ function get_word_query(word_prop){
 	query+=" ] ";
 	return query;
 }
+
 function generate_query(){
 	
 	var block=document.getElementById("cqp");
@@ -227,7 +257,24 @@ function generate_query(){
 	for(i=0;i<word_prop_list.length;i++){
 		word_list.push(get_word_query(word_prop_list[i]));
 	}
-	window.query_list=word_list;
+	window.word_query_list=word_list;
+
+	var dependency_prop_list=document.getElementsByClassName("dependency");
+
+	dependency_list=[]
+	
+	for(i=0;i<dependency_prop_list.length;i++){
+		l=dependency_prop_list[i].getElementsByClassName("word_left")[0].value;
+		r=dependency_prop_list[i].getElementsByClassName("word_right")[0].value;
+		d=dependency_prop_list[i].getElementsByClassName("dependency_type")[0].value;
+		if(l!="None" && r!="None"){
+			console.log(">>"+l+d+r);
+
+		}
+		// dependency_list.push(get_dependency_query(dependency_prop_list[i]));
+	}
+	window.dependency_query_list=dependency_list;
+
 }
 
 function or_property(block){
