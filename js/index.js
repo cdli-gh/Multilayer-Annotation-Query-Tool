@@ -32,7 +32,7 @@ function add_word(button){
 	range_to=document.createElement("input");
 	range_to.type="text";
 	range_to.value="1";
-	range_to.className="range_from form-control";
+	range_to.className="range_to form-control";
 	range_to.style="width:10%;margin: 0% 1%;float:left;";
 	range_to.setAttribute("onchange","update_query()");
 	
@@ -225,6 +225,22 @@ function add_property(block){
 function get_word_query(word_prop){
 	query="";
 	varible_name=word_prop.parentElement.children[0].getElementsByClassName("variable_name")[0].value;
+	
+	range_from=word_prop.parentElement.children[0].getElementsByClassName("range_from")[0].value;
+	range_to=word_prop.parentElement.children[0].getElementsByClassName("range_to")[0].value;	
+	range="{"+range_from+", "+range_to+"} ";
+	if(range_to.trim()=="inf"){
+		if(range_from.trim()=="0"){
+			range="*";
+		}
+		else if(range_from.trim()=="1"){
+			range="+";
+		}
+	}
+	if(range_from.trim()==range_to.trim()){
+		range="{"+range_from+"} ";	
+	}
+
 	query+=varible_name+":[ ";
 	inner_card=word_prop.getElementsByClassName("inside_card");
 	for(j=0;j<inner_card.length;j++){
@@ -261,7 +277,7 @@ function get_word_query(word_prop){
 			query+=query_in;
 		}
 	}
-	query+=" ] ";
+	query+=" ]"+range;
 	return query;
 }
 
@@ -277,21 +293,21 @@ function generate_query(){
 	}
 	window.word_query_list=word_list;
 
-	var dependency_prop_list=document.getElementsByClassName("dependency");
+	// var dependency_prop_list=document.getElementsByClassName("dependency");
 
-	dependency_list=[]
+	// dependency_list=[]
 	
-	for(i=0;i<dependency_prop_list.length;i++){
-		l=dependency_prop_list[i].getElementsByClassName("word_left")[0].value;
-		r=dependency_prop_list[i].getElementsByClassName("word_right")[0].value;
-		d=dependency_prop_list[i].getElementsByClassName("dependency_type")[0].value;
-		if(l!="None" && r!="None"){
-			console.log(">>"+l+d+r);
+	// for(i=0;i<dependency_prop_list.length;i++){
+	// 	l=dependency_prop_list[i].getElementsByClassName("word_left")[0].value;
+	// 	r=dependency_prop_list[i].getElementsByClassName("word_right")[0].value;
+	// 	d=dependency_prop_list[i].getElementsByClassName("dependency_type")[0].value;
+	// 	if(l!="None" && r!="None"){
+	// 		console.log(">>"+l+d+r);
 
-		}
-		// dependency_list.push(get_dependency_query(dependency_prop_list[i]));
-	}
-	window.dependency_query_list=dependency_list;
+	// 	}
+	// 	// dependency_list.push(get_dependency_query(dependency_prop_list[i]));
+	// }
+	// window.dependency_query_list=dependency_list;
 
 }
 
@@ -390,11 +406,7 @@ function add_dependency(button){
 
 	div1.appendChild(button1)
 
-	word_list=[];
-	word_prop_list=document.getElementsByClassName("word_property_list");
-	for(i=0;i<word_prop_list.length;i++){
-		word_list.push(get_word_query(word_prop_list[i]));
-	}
+	word_list=window.word_query_list;
 
 	// select1 
 	select1=document.createElement("select");
