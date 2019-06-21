@@ -35,7 +35,8 @@ function add_word(button){
 	var_input.value="w"+window.counter;
 	var_input.className="variable_name form-control";
 	var_input.style="width:10%;margin: 0% 1%;float:right;";
-	var_input.disabled=true;	
+	var_input.setAttribute("onchange","update_query()");
+	// var_input.disabled=true;	
 
 	div1.appendChild(button1);
 	div1.appendChild(button2);
