@@ -66,15 +66,16 @@ function add_word(button){
 
 	update_query();
 	
-	
-
 }
 
 function update_query(){
 	generate_query();
 	console.log(window.word_query_list);
+	console.log(window.dependency_query_list);
 	document.getElementById("cqp").value=window.word_query_list.join(" ");
-
+	if(window.dependency_query_list.length>0){
+		document.getElementById("cqp").value+=" :: "+window.dependency_query_list.join(" & ");
+	}
 	left_variables=document.getElementsByClassName("word_left");
 	for(i=0;i<left_variables.length;i++){
 		drop_list=left_variables[i];
@@ -293,21 +294,19 @@ function generate_query(){
 	}
 	window.word_query_list=word_list;
 
-	// var dependency_prop_list=document.getElementsByClassName("dependency");
+	var dependency_prop_list=document.getElementsByClassName("dependency");
 
-	// dependency_list=[]
-	
-	// for(i=0;i<dependency_prop_list.length;i++){
-	// 	l=dependency_prop_list[i].getElementsByClassName("word_left")[0].value;
-	// 	r=dependency_prop_list[i].getElementsByClassName("word_right")[0].value;
-	// 	d=dependency_prop_list[i].getElementsByClassName("dependency_type")[0].value;
-	// 	if(l!="None" && r!="None"){
-	// 		console.log(">>"+l+d+r);
+	dependency_list=[];
 
-	// 	}
-	// 	// dependency_list.push(get_dependency_query(dependency_prop_list[i]));
-	// }
-	// window.dependency_query_list=dependency_list;
+	for(i=0;i<dependency_prop_list.length;i++){
+		l=dependency_prop_list[i].getElementsByClassName("word_left")[0].value.split(":")[0].trim();
+		r=dependency_prop_list[i].getElementsByClassName("word_right")[0].value.split(":")[0].trim();
+		if(l!="None" && r!="None"){
+			query=l+".conll:HEAD="+r;
+			dependency_list.push(query);
+		}
+	}
+	window.dependency_query_list=dependency_list;
 
 }
 
@@ -424,7 +423,8 @@ function add_dependency(button){
 		x.value=word_list[i];
 		select1.appendChild(x);
 	}
-
+	select1.setAttribute("onchange","update_query()");
+	
 	// select2
 	select2=document.createElement("span");
 	select2.className="dependency_type";
@@ -459,6 +459,7 @@ function add_dependency(button){
 		x.value=word_list[i];
 		select3.appendChild(x);
 	}
+	select3.setAttribute("onchange","update_query()");
 	
 	div2.appendChild(select1);
 	div2.appendChild(select2);
