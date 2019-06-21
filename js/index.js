@@ -22,20 +22,41 @@ function add_word(button){
 	button1.className="btn btn-danger";
 	button1.style="float: right;";
 
+	message1=document.createElement("span");
+	message1.appendChild(document.createTextNode("FROM"));
+	message1.style="width:100%;margin: 0% 1%;";
+	
 	range_from=document.createElement("input");
 	range_from.type="text";
 	range_from.value="1";
 	range_from.className="range_from form-control";
-	range_from.style="width:10%;margin: 0% 1%;float:left;";
+	range_from.style="width:100%;margin: 0% 1%;";
+	range_from.placeholder="from";
 	range_from.setAttribute("onchange","update_query()");
-	
+
+	div_from=document.createElement("div");
+	div_from.style="width:10%; margin: 0% 1%;float:left;text-align:center;";
+	div_from.appendChild(range_from);
+	div_from.appendChild(message1);
+
+	message2=document.createElement("span");
+	message2.appendChild(document.createTextNode("TO"));
+	message2.style="margin: 0% 1%;width: 100%;";
+
+
 	range_to=document.createElement("input");
 	range_to.type="text";
 	range_to.value="1";
 	range_to.className="range_to form-control";
-	range_to.style="width:10%;margin: 0% 1%;float:left;";
+	range_to.style="width:100%;margin: 0% 1%";
+	range_to.placeholder="to";
 	range_to.setAttribute("onchange","update_query()");
 	
+	div_to=document.createElement("div");
+	div_to.style="width:10%; margin: 0% 1%;float:left;text-align:center;";
+	div_to.appendChild(range_to);
+	div_to.appendChild(message2);
+
 	button2=document.createElement("button");
 	button2.type="submit";
 	button2.setAttribute("onclick","add_property(this)");
@@ -54,9 +75,12 @@ function add_word(button){
 
 
 	div1.appendChild(button2);
+	// div1.appendChild(message1);
+	div1.appendChild(div_from);
+	// div1.appendChild(message2);
+	div1.appendChild(div_to);
+
 	div1.appendChild(button1);
-	div1.appendChild(range_from);
-	div1.appendChild(range_to);
 	div1.appendChild(var_input);
 
 	main_div.appendChild(div1);
