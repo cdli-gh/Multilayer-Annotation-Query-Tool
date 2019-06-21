@@ -22,6 +22,20 @@ function add_word(button){
 	button1.className="btn btn-danger";
 	button1.style="float: right;";
 
+	range_from=document.createElement("input");
+	range_from.type="text";
+	range_from.value="1";
+	range_from.className="range_from form-control";
+	range_from.style="width:10%;margin: 0% 1%;float:left;";
+	range_from.setAttribute("onchange","update_query()");
+	
+	range_to=document.createElement("input");
+	range_to.type="text";
+	range_to.value="1";
+	range_to.className="range_from form-control";
+	range_to.style="width:10%;margin: 0% 1%;float:left;";
+	range_to.setAttribute("onchange","update_query()");
+	
 	button2=document.createElement("button");
 	button2.type="submit";
 	button2.setAttribute("onclick","add_property(this)");
@@ -38,8 +52,11 @@ function add_word(button){
 	var_input.setAttribute("onchange","update_query()");
 	// var_input.disabled=true;	
 
-	div1.appendChild(button1);
+
 	div1.appendChild(button2);
+	div1.appendChild(button1);
+	div1.appendChild(range_from);
+	div1.appendChild(range_to);
 	div1.appendChild(var_input);
 
 	main_div.appendChild(div1);
@@ -443,3 +460,6 @@ function add_dependency(button){
 
 }
 
+function update_range(){
+
+}
