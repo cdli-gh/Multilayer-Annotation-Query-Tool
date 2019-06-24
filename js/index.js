@@ -9,7 +9,6 @@ function add_word(button){
 	
 	div1=document.createElement('div');
 	div1.className="card-header";
-	// div1.appendChild(document.createTextNode("Word-"+window.counter));
 	
 	div2=document.createElement('div');
 	div2.className="word_property_list card-body";
@@ -64,7 +63,6 @@ function add_word(button){
 	button2.className="btn btn-primary";
 	button2.style="float: left;";
 	
-	// <input type="text" name="word_name" class="form-control" style="float: right; width: 25%;margin: 0% 1%;" placeholder="Word Variable">
 	var_input=document.createElement("input");
 	var_input.type="text";
 	var_input.value="w"+window.counter;
@@ -75,9 +73,7 @@ function add_word(button){
 
 
 	div1.appendChild(button2);
-	// div1.appendChild(message1);
 	div1.appendChild(div_from);
-	// div1.appendChild(message2);
 	div1.appendChild(div_to);
 
 	div1.appendChild(button1);
@@ -137,30 +133,13 @@ function update_query(){
 	}
 }
 
-// function update_dropdown(drop_list){
-// 	original=drop_list.value.split(":")[0].trim();
-// 	drop_list.options.length=1;
-// 	drop_list.options[0].selected=true;
-// 	for(i=0;i<window.word_query_list.length;i++){
-// 		x=document.createElement("option");
-// 		v=window.word_query_list[i];
-// 		if(v.split(":")[0].trim()==original){
-// 			x.selected=true;	
-// 		}
-// 		x.text=v;
-// 		x.value=v;
-// 		drop_list.appendChild(x);		
-// 	}
-// 	return drop_list;
-// }
-
 function add_property(block){
 	var properties = block.parentElement.parentElement.getElementsByClassName("word_property_list")[0];
 		
 	div=document.createElement("div");
 	div.className="card";
 	div.style="min-width: 20vw; width:20vw; margin: 1%;";
-	// min-width: 10vw; min-height: 10vh; margin:1%;
+
 	div_in=document.createElement("div");
 	div_in.className="inside_card card-body";
 	div_in.style="width:100%;margin: 1%;"
@@ -188,16 +167,6 @@ function add_property(block){
 	select2.style="margin:0 45%";
 	select2.setAttribute("onclick","inverse(this)");
 	
-	// select2.style="width: 25%;margin:1%;";
-	// select2.value="is"
-	// options2=["is","is not"];
-	// for(i=0;i<options2.length;i++){
-	// 	x=document.createElement("option");
-	// 	x.text=options2[i];
-	// 	x.value=options2[i];
-	// 	select2.appendChild(x);
-	// }
-
 	input=document.createElement("input");
 	input.type="text";
 	input.className="property_value";
@@ -220,8 +189,7 @@ function add_property(block){
 	
 	div_out=document.createElement("div");
 	div_out.className="card-header header_card";
-	// div_out.style="width:100%;margin: 1%;"
-
+	
 	div_out.appendChild(or_button);
 	div_out.appendChild(del_button);
 
@@ -229,14 +197,8 @@ function add_property(block){
 	div_in.appendChild(select2);
 	div_in.appendChild(input);
 	
-	// and_box=document.createElement("div");
-	// and_box.className="card";
-	// and_box.style="padding:1%;margin: 1%;float: left;display: inline-block;";
-	// and_box.appendChild(document.createTextNode("AND"));
-
 	div.appendChild(div_out);
 	div.appendChild(div_in);
-	// div.appendChild(del_button);
 	
 	if(properties.childElementCount>0){
 		and=document.createElement("div");
@@ -408,8 +370,6 @@ function delete_dependency(block){
 }
 
 function add_dependency(button){
-	// window.counter+=1;
-
 	main_div=document.createElement('div');
 	main_div.className="dependency card";
 	
@@ -454,18 +414,6 @@ function add_dependency(button){
 	select2.className="dependency_type";
 	select2.style="flex:1;margin:1%;width:30%;text-align:center;";
 	select2.appendChild(document.createTextNode("HEAD"));
-	// options1=["nextWord"];
-	// x=document.createElement("option");
-	// x.text="Next Word";
-	// x.value="nextWord";
-	// x.selected=true;
-	// select2.appendChild(x);
-	
-	// x=document.createElement("option");
-	// x.text="HEAD";
-	// x.value="HEAD";
-	// select2.appendChild(x);
-	
 
 	// select3
 	select3=document.createElement("select");
@@ -494,9 +442,5 @@ function add_dependency(button){
 	main_div.appendChild(div2);
 	
 	document.getElementById('dependency_list').appendChild(main_div);
-
-}
-
-function update_range(){
 
 }
