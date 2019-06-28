@@ -7,7 +7,7 @@ window.word_id_list=[];
 // a list which stores the dependency b/w words
 var dependency_query_list=[];
 
-function or_property(block){
+function or_property(block, add_or=true){
 	/* 
 	The function is used to add another property in OR with the current property of that word
 	Input Arguments=>
@@ -21,9 +21,12 @@ function or_property(block){
 	//  creating a division to hold the GUI for OR  
 	or=document.createElement("div");
 
-	// adding the text "OR"
-	or.appendChild(document.createTextNode("OR"));
-	or.style="text-align:center;color:#666666;";
+	// check if we need to add the text "OR"
+	if(add_or){
+		// adding the text "OR" 
+		or.appendChild(document.createTextNode("OR"));
+		or.style="text-align:center;color:#666666;";	
+	}
 	
 	// creatign a dropdown and adding options to it
 	select=document.createElement("select");
@@ -85,45 +88,16 @@ function add_property(block){
 	for eg:- [(conll:ID = "1")] => [(conll:ID = "1") & (conll:UPOSTAG = "NOUN")]	
 	*/
 
+	// gets the html element using the **block** to get the word to whic we want to add the property
 	var properties = block.parentElement.parentElement.getElementsByClassName("word_property_list")[0];
-		
+	
+	// creates a new division for the properties of AND 
 	div=document.createElement("div");
 	div.className="card";
 	div.style="min-width: 20vw; width:20vw; margin: 1%;";
 
-	div_in=document.createElement("div");
-	div_in.className="inside_card card-body";
-	div_in.style="width:100%;margin: 1%;"
-
-	select1=document.createElement("select");
-	select1.className="property_name";
-	select1.style="width: 100%;";
 	
-	options1=["ID","FORM","LEMMA","UPOSTAG","XPOSTAG","FEATS","DEPREL",];
-	x=document.createElement("option");
-	x.text="Feature";
-	x.value="None";
-	x.selected=true;
-	x.disabled=true;
-	select1.appendChild(x);
-	for(i=0;i<options1.length;i++){
-		x=document.createElement("option");
-		x.text=options1[i];
-		x.value=options1[i];
-		select1.appendChild(x);
-	}
-	
-	select2=document.createElement("i");
-	select2.className="property_rel fa fa-equals";
-	select2.style="margin:0 45%";
-	select2.setAttribute("onclick","inverse(this)");
-	
-	input=document.createElement("input");
-	input.type="text";
-	input.className="property_value";
-	input.style="width:100%;margin: 1%;";
-	input.setAttribute("onchange","update_query()");
-
+	// add a button to div which adds property in OR
 	or_button=document.createElement("button");
 	or_button.type="submit";
 	or_button.setAttribute("onclick","or_property(this)");
@@ -131,6 +105,7 @@ function add_property(block){
 	or_button.className="btn btn-primary";
 	or_button.style="width:40%;float:left;margin:1%;";
 
+	// add a buton to div which delets the complete box for that property
 	del_button=document.createElement("button");
 	del_button.type="submit";
 	del_button.setAttribute("onclick","delete_property(this)");
@@ -138,19 +113,25 @@ function add_property(block){
 	del_button.className="btn btn-danger";
 	del_button.style="width:40%;float:right;margin:1%;";
 	
-	div_out=document.createElement("div");
-	div_out.className="card-header header_card";
+	// creates the header division to the card
+	header=document.createElement("div");
+	header.className="card-header header_card";
 	
-	div_out.appendChild(or_button);
-	div_out.appendChild(del_button);
+	// adds the OR button and the DELETE button to the header
+	header.appendChild(or_button);
+	header.appendChild(del_button);
 
-	div_in.appendChild(select1);
-	div_in.appendChild(select2);
-	div_in.appendChild(input);
+	// the division for card-body that hold the conditions in OR
+	body=document.createElement("div");
+	body.className="inside_card card-body";
+	body.style="width:100%;margin: 1%;"
+
+	// adds the header and the body section to the the card
+	div.appendChild(header);
+	div.appendChild(body);
 	
-	div.appendChild(div_out);
-	div.appendChild(div_in);
-	
+	// adds the "AND" text when adding more properties to a word 
+	// checking whether it is the first property or not ... bcz we don't need before the first element
 	if(properties.childElementCount>0){
 		and=document.createElement("div");
 		and.appendChild(document.createTextNode("AND"));
@@ -158,7 +139,11 @@ function add_property(block){
 		properties.appendChild(and);	
 	}
 	
+	// add the div card as a new property to the word
 	properties.appendChild(div);
+
+	// adding the properties section without the "OR" text as it would the first conditon under OR
+	or_property(or_button,false);
 }
 
 function add_word(){
