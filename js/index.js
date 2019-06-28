@@ -1,11 +1,23 @@
-var counter=0;
+// a counter variale which would store the counter of the number of the word 
+var counter=0; 
+// a list which stores the query details for every word as a separate element
 var word_query_list=[];
+// a list which stores the id of every word for which we are defining the query
 window.word_id_list=[];
+// a list which stores the dependency b/w words
 var dependency_query_list=[];
 
 function or_property(block){
+	/* 
+	The function is used to add another property in OR with the current property of that word
+	The function recieves the **block** variable as the location of the OR button, it used to add property to that specific condition
+	for eg:- [(conll:ID = "1")] => [(conll:ID = "1" | conll:ID = "2")]
+	*/
+
+	// using the **block**, we get the OR button, and then the exact location where the conditions are specified 
 	var prop=block.parentElement.parentElement.getElementsByClassName("inside_card")[0];
 
+	//  
 	or=document.createElement("div");
 	or.appendChild(document.createTextNode("--OR--"));
 	or.style="text-align:center;color:#666666;";
@@ -419,7 +431,6 @@ function generate_query(){
 		}
 	}
 	window.dependency_query_list=dependency_list;
-
 }
 
 
