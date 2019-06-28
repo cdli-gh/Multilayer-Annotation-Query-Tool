@@ -1,4 +1,4 @@
-// a counter variale which would store the counter of the number of the word 
+// a counter variale which would store the counter of the number of the words 
 var counter=0; 
 // a list which stores the query details for every word as a separate element
 var word_query_list=[];
@@ -10,7 +10,8 @@ var dependency_query_list=[];
 function or_property(block){
 	/* 
 	The function is used to add another property in OR with the current property of that word
-	The function recieves the **block** variable as the location of the OR button, it used to add property to that specific condition
+	Input Arguments=>
+		block = the HTML element of the OR buttton , in order to get the conditon to add OR with 
 	for eg:- [(conll:ID = "1")] => [(conll:ID = "1" | conll:ID = "2")]
 	*/
 
@@ -79,7 +80,8 @@ function or_property(block){
 function add_property(block){
 	/*
 	The functions adds a new property for the given word in an AND relation to that word
-	The function recieves the **block** variable as the location of the **ADD PROPERTY** button, it used to add property more property to that word
+	Input Arguments=>
+		block = the HTML element of the Word block , in order to get the Word to append the condition 
 	for eg:- [(conll:ID = "1")] => [(conll:ID = "1") & (conll:UPOSTAG = "NOUN")]	
 	*/
 
@@ -159,7 +161,11 @@ function add_property(block){
 	properties.appendChild(div);
 }
 
-function add_word(button){
+function add_word(){
+	/*
+	The function adds a new word to the CQP query
+	for eg:- [(conll:ID="1")] ==add_word==>> [(conll:ID="1")] [(conll:ID="2")]
+	*/
 	window.counter+=1;
 
 	main_div=document.createElement('div');
@@ -247,7 +253,7 @@ function add_word(button){
 	
 }
 
-function add_dependency(button){
+function add_dependency(){
 	main_div=document.createElement('div');
 	main_div.className="dependency card";
 	
@@ -488,10 +494,20 @@ function delete_property(block){
 }
 
 function inverse(sign){
+	/*
+	The function is used to inverse the sign of the equal(=) sign to not-equal(!=) sign and vice versa on being clicked 
+	input arguments=>
+		sign = the HTML element of the equals/not-equals sign  
+	*/
+
+	// check if the sign is equals
 	if(sign.classList.contains("fa-equals")){
+		// if the sign is equals, then change it to not-equals
 		sign.classList.replace("fa-equals","fa-not-equal");
 	}
+	// check if the sign is not-equals
 	else if(sign.classList.contains("fa-not-equal")){
+		// if the sign is not-equals, then change it to equals 
 		sign.classList.replace("fa-not-equal","fa-equals");
 	}
 	update_query();
