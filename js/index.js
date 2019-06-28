@@ -17,47 +17,72 @@ function or_property(block){
 	// using the **block**, we get the OR button, and then the exact location where the conditions are specified 
 	var prop=block.parentElement.parentElement.getElementsByClassName("inside_card")[0];
 
-	//  
+	//  creating a division to hold the GUI for OR  
 	or=document.createElement("div");
-	or.appendChild(document.createTextNode("--OR--"));
+
+	// adding the text "OR"
+	or.appendChild(document.createTextNode("OR"));
 	or.style="text-align:center;color:#666666;";
 	
-	select1=document.createElement("select");
-	select1.className="property_name";
-	select1.style="width: 100%;";
+	// creatign a dropdown and adding options to it
+	select=document.createElement("select");
+	select.className="property_name";
+	select.style="width: 100%;";
+	
+	// list of options oto add
 	options1=["ID","FORM","LEMMA","UPOSTAG","XPOSTAG","FEATS","DEPREL"];
+	
+	// addign a dummy default dropdown option 
 	x=document.createElement("option");
 	x.text="Feature";
 	x.value="None";
 	x.selected=true;
 	x.disabled=true;
-	select1.appendChild(x);
+	select.appendChild(x);
+
+	// adding all the options to the dropdown
 	for(i=0;i<options1.length;i++){
 		x=document.createElement("option");
 		x.text=options1[i];
 		x.value=options1[i];
-		select1.appendChild(x);
+		select.appendChild(x);
 	}
 	
-	select2=document.createElement("i");
-	select2.className="property_rel fa fa-equals";
-	select2.style="margin:0 45%;"
-	select2.setAttribute("onclick","inverse(this)");
+	// creating an equals/not-equals sign
+	equals=document.createElement("i");
+	equals.className="property_rel fa fa-equals";
+	equals.style="margin:0 45%;"
 
+	// will change equals to not-eqals and vice-versa 
+	equals.setAttribute("onclick","inverse(this)");
+
+	// input box to enter the value of the property
 	input=document.createElement("input");
 	input.type="text";
 	input.className="property_value";
 	input.style="width:100%;margin: 1%;";
+
+	// will update the query everywhere as soon as the value in the textbox is updated
 	input.setAttribute("onchange","update_query()");
 
+	// appending the OR text to the div of property of that word
 	prop.appendChild(or);
-	prop.appendChild(select1);
-	prop.appendChild(select2);
+	// appending the dropdown 
+	prop.appendChild(select);
+	// appending the equals sign
+	prop.appendChild(equals);
+	// appending the input box
 	prop.appendChild(input);
 	
 }
 
 function add_property(block){
+	/*
+	The functions adds a new property for the given word in an AND relation to that word
+	The function recieves the **block** variable as the location of the **ADD PROPERTY** button, it used to add property more property to that word
+	for eg:- [(conll:ID = "1")] => [(conll:ID = "1") & (conll:UPOSTAG = "NOUN")]	
+	*/
+
 	var properties = block.parentElement.parentElement.getElementsByClassName("word_property_list")[0];
 		
 	div=document.createElement("div");
