@@ -18,66 +18,31 @@ function or_property(block, add_or=true){
 	// using the **block**, we get the OR button, and then the exact location where the conditions are specified 
 	var prop=block.parentElement.parentElement.getElementsByClassName("inside_card")[0];
 
-	//  creating a division to hold the GUI for OR  
-	or=document.createElement("div");
+	or_div=`<div style="text-align: center; color: rgb(102, 102, 102);">OR</div>`;
 
-	// check if we need to add the text "OR"
+	property_selector=`
+	<select class="property_name" style="width: 100%;">
+		<option value="None" disabled="" selected>Feature</option>
+		<option value="ID">ID</option>
+		<option value="FORM">FORM</option>
+		<option value="LEMMA">LEMMA</option>
+		<option value="UPOSTAG">UPOSTAG</option>
+		<option value="XPOSTAG">XPOSTAG</option>
+		<option value="FEATS">FEATS</option>
+		<option value="DEPREL">DEPREL</option>
+	</select>
+	<i class="property_rel fa fa-equals" onclick="inverse(this)" style="margin: 0px 45%;"></i>
+	<input type="text" class="property_value" onchange="update_query()" style="width: 100%; margin: 1%;">`;
+
+	content="";
+	
 	if(add_or){
-		// adding the text "OR" 
-		or.appendChild(document.createTextNode("OR"));
-		or.style="text-align:center;color:#666666;";	
+		content+=or_div;
 	}
-	
-	// creatign a dropdown and adding options to it
-	select=document.createElement("select");
-	select.className="property_name";
-	select.style="width: 100%;";
-	
-	// list of options oto add
-	options1=["ID","FORM","LEMMA","UPOSTAG","XPOSTAG","FEATS","DEPREL"];
-	
-	// addign a dummy default dropdown option 
-	x=document.createElement("option");
-	x.text="Feature";
-	x.value="None";
-	x.selected=true;
-	x.disabled=true;
-	select.appendChild(x);
 
-	// adding all the options to the dropdown
-	for(i=0;i<options1.length;i++){
-		x=document.createElement("option");
-		x.text=options1[i];
-		x.value=options1[i];
-		select.appendChild(x);
-	}
-	
-	// creating an equals/not-equals sign
-	equals=document.createElement("i");
-	equals.className="property_rel fa fa-equals";
-	equals.style="margin:0 45%;"
+	content+=property_selector;
 
-	// will change equals to not-eqals and vice-versa 
-	equals.setAttribute("onclick","inverse(this)");
-
-	// input box to enter the value of the property
-	input=document.createElement("input");
-	input.type="text";
-	input.className="property_value";
-	input.style="width:100%;margin: 1%;";
-
-	// will update the query everywhere as soon as the value in the textbox is updated
-	input.setAttribute("onchange","update_query()");
-
-	// appending the OR text to the div of property of that word
-	prop.appendChild(or);
-	// appending the dropdown 
-	prop.appendChild(select);
-	// appending the equals sign
-	prop.appendChild(equals);
-	// appending the input box
-	prop.appendChild(input);
-	
+	$(prop).append(content);	
 }
 
 function add_property(block){
@@ -91,59 +56,29 @@ function add_property(block){
 	// gets the html element using the **block** to get the word to whic we want to add the property
 	var properties = block.parentElement.parentElement.getElementsByClassName("word_property_list")[0];
 	
-	// creates a new division for the properties of AND 
-	div=document.createElement("div");
-	div.className="card";
-	div.style="min-width: 20vw; width:20vw; margin: 1%;";
-
-	
-	// add a button to div which adds property in OR
-	or_button=document.createElement("button");
-	or_button.type="submit";
-	or_button.setAttribute("onclick","or_property(this)");
-	or_button.appendChild(document.createTextNode("OR"));
-	or_button.className="btn btn-primary";
-	or_button.style="width:40%;float:left;margin:1%;";
-
-	// add a buton to div which delets the complete box for that property
-	del_button=document.createElement("button");
-	del_button.type="submit";
-	del_button.setAttribute("onclick","delete_property(this)");
-	del_button.appendChild(document.createTextNode("Delete"));
-	del_button.className="btn btn-danger";
-	del_button.style="width:40%;float:right;margin:1%;";
-	
-	// creates the header division to the card
-	header=document.createElement("div");
-	header.className="card-header header_card";
-	
-	// adds the OR button and the DELETE button to the header
-	header.appendChild(or_button);
-	header.appendChild(del_button);
-
-	// the division for card-body that hold the conditions in OR
-	body=document.createElement("div");
-	body.className="inside_card card-body";
-	body.style="width:100%;margin: 1%;"
-
-	// adds the header and the body section to the the card
-	div.appendChild(header);
-	div.appendChild(body);
-	
-	// adds the "AND" text when adding more properties to a word 
-	// checking whether it is the first property or not ... bcz we don't need before the first element
-	if(properties.childElementCount>0){
-		and=document.createElement("div");
-		and.appendChild(document.createTextNode("AND"));
-		and.style="text-align:center;color:#666666;display: flex;justify-content: center;flex-direction: column;text-align: center;";
-		properties.appendChild(and);	
-	}
-	
-	// add the div card as a new property to the word
-	properties.appendChild(div);
-
-	// adding the properties section without the "OR" text as it would the first conditon under OR
-	or_property(or_button,false);
+	content=`
+	<div class="card" style="min-width: 20vw; width: 20vw; margin: 1%;">
+        <div class="card-header header_card">
+            <button type="submit" onclick="or_property(this)" class="btn btn-primary" style="width: 40%; float: left; margin: 1%;">OR</button>
+            <button type="submit" onclick="delete_property(this)" class="btn btn-danger" style="width: 40%; float: right; margin: 1%;">Delete</button>
+        </div>
+        <div class="inside_card card-body" style="width: 100%; margin: 1%;">
+            <select class="property_name" style="width: 100%;">
+                <option value="None" disabled="" selected="">Feature</option>
+                <option value="ID">ID</option>
+                <option value="FORM">FORM</option>
+                <option value="LEMMA">LEMMA</option>
+                <option value="UPOSTAG">UPOSTAG</option>
+                <option value="XPOSTAG">XPOSTAG</option>
+                <option value="FEATS">FEATS</option>
+                <option value="DEPREL">DEPREL</option>
+            </select>
+            <i class="property_rel fa fa-equals" onclick="inverse(this)" style="margin: 0px 45%;"></i>
+            <input type="text" class="property_value" onchange="update_query()" style="width: 100%; margin: 1%;">
+        </div>
+    </div>
+	`;
+	$(properties).append(content);
 }
 
 function add_word(){
@@ -152,198 +87,70 @@ function add_word(){
 	for eg:- [(conll:ID="1")] ==add_word==>> [(conll:ID="1")] [(conll:ID="2")]
 	*/
 	window.counter+=1;
+	word_list=document.getElementById('word_list');
+	$(word_list).append(`
+	<div class="word card">
+		<div class="card-header">
+			<button type="submit" onclick="add_property(this)" class="btn btn-primary" style="float: left;">Add Property</button>
+			<div style="width: 10%; margin: 0% 1%; float: left; text-align: center;">
+				<input type="text" value="1" class="range_from form-control" placeholder="FROM" onchange="update_query()" style="width: 100%; margin: 0% 1%;">
+				<span style="width: 100%; margin: 0% 1%;">FROM</span>
+			</div>
+			<div style="width: 10%; margin: 0% 1%; float: left; text-align: center;">
+				<input type="text" value="1" class="range_to form-control" placeholder="to" onchange="update_query()" style="width: 100%; margin: 0% 1%;">
+				<span style="margin: 0% 1%; width: 100%;">TO</span>
+			</div>
+			<button type="submit" onclick="delete_word(this)" class="btn btn-danger" style="float: right;">Delete Word</button>
+			<input type="text" id="w${window.counter}" value="w${window.counter}" class="variable_name form-control" onchange="update_query()" style="width: 15%; margin: 0% 1%; float: right;">
+		</div>
+		<div class="word_property_list card-body" style="display: flex; flex-flow: row nowrap; flex-shrink: 0; overflow-x: auto;">
+		</div>
+	</div>
+	`);
 
-	main_div=document.createElement('div');
-	main_div.className="word card";
 	
-	div1=document.createElement('div');
-	div1.className="card-header";
 	
-	div2=document.createElement('div');
-	div2.className="word_property_list card-body";
-	div2.style="display:flex;flex-direction: row; flex-wrap: nowrap; flex-shrink: 0;overflow-x: auto;";
-	
-	button1=document.createElement("button");
-	button1.type="submit";
-	button1.setAttribute("onclick","delete_word(this)");
-	button1.appendChild(document.createTextNode("Delete Word"));
-	button1.className="btn btn-danger";
-	button1.style="float: right;";
-
-	message1=document.createElement("span");
-	message1.appendChild(document.createTextNode("FROM"));
-	message1.style="width:100%;margin: 0% 1%;";
-	
-	range_from=document.createElement("input");
-	range_from.type="text";
-	range_from.value="1";
-	range_from.className="range_from form-control";
-	range_from.style="width:100%;margin: 0% 1%;";
-	range_from.placeholder="from";
-	range_from.setAttribute("onchange","update_query()");
-
-	div_from=document.createElement("div");
-	div_from.style="width:10%; margin: 0% 1%;float:left;text-align:center;";
-	div_from.appendChild(range_from);
-	div_from.appendChild(message1);
-
-	message2=document.createElement("span");
-	message2.appendChild(document.createTextNode("TO"));
-	message2.style="margin: 0% 1%;width: 100%;";
-
-
-	range_to=document.createElement("input");
-	range_to.type="text";
-	range_to.value="1";
-	range_to.className="range_to form-control";
-	range_to.style="width:100%;margin: 0% 1%";
-	range_to.placeholder="to";
-	range_to.setAttribute("onchange","update_query()");
-	
-	div_to=document.createElement("div");
-	div_to.style="width:10%; margin: 0% 1%;float:left;text-align:center;";
-	div_to.appendChild(range_to);
-	div_to.appendChild(message2);
-
-	button2=document.createElement("button");
-	button2.type="submit";
-	button2.setAttribute("onclick","add_property(this)");
-	button2.appendChild(document.createTextNode("Add Property"));
-	button2.className="btn btn-primary";
-	button2.style="float: left;";
-	
-	var_input=document.createElement("input");
-	var_input.type="text";
-	var_input.id="w"+window.counter;
-	var_input.value="w"+window.counter;
-	var_input.className="variable_name form-control";
-	var_input.style="width:15%;margin: 0% 1%;float:right;";
-	var_input.setAttribute("onchange","update_query()");
-	// var_input.disabled=true;	
-
-
-	div1.appendChild(button2);
-	div1.appendChild(div_from);
-	div1.appendChild(div_to);
-
-	div1.appendChild(button1);
-	div1.appendChild(var_input);
-
-	main_div.appendChild(div1);
-	main_div.appendChild(div2);
-	
-	document.getElementById('word_list').appendChild(main_div);
-
-	update_query();
-	
-	if(window.word_query_list.length>1){
+	if(window.word_query_list.length>0){
 		add_dependency(add_normal_dependency="nextWord");	
-		// console.log("test2>"+window.dependency_query_list);
-		update_query();
 	}
+	
+	update_query();	
 
 }
 
 function add_dependency(add_normal_dependency=null){
-	main_div=document.createElement('div');
-	main_div.className="dependency card";
 	
-	div1=document.createElement('div');
-	div1.className="card-header";
-	
-	div2=document.createElement('div');
-	div2.className="card-body";
-	div2.style="display:flex; align-items: center; justify-content: center;";
-	
-	button1=document.createElement("button");
-	button1.type="submit";
-	button1.setAttribute("onclick","delete_dependency(this)");
-	button1.appendChild(document.createTextNode("Delete Dependency"));
-	button1.className="btn btn-danger";
-	button1.style="float: right;";
+	dependency_list=document.getElementById('dependency_list');
 
-	div1.appendChild(button1)
+	dependency_box=`
+	<div class="dependency card">
+	    <div class="card-header">
+	        <button type="submit" onclick="delete_dependency(this)" class="btn btn-danger" style="float: right;">Delete Dependency</button>
+	    </div>
+	    <div class="card-body" style="display: flex; align-items: center; justify-content: center;">
+	        <select class="word_left" onchange="update_query()" style="flex: 1 1 0%; margin: 1%; width: 30%;">
+	            <option value="None" disabled selected>Left Variable</option>
+	        </select>
+	        <select class="dependency_type" onchange="update_query()" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
+	            <option value="None" disabled selected>Dependency</option>
+	            <option value="nextWord">nextWord</option>
+	            <option value="HEAD">HEAD</option>
+	        </select>
+	        <select class="word_right" onchange="update_query()" style="flex: 1 1 0%; margin: 1%; width: 30%;">
+	            <option value="None" disabled selected>Right Variable</option>
+	        </select>
+	    </div>
+	</div>`;
 
-	word_list=window.word_query_list;
+	$(dependency_list).append(dependency_box);
 
-	// select1 
-	select1=document.createElement("select");
-	select1.className="word_left";
-	select1.style="flex:1;margin: 1%; width:30%;";
-	x=document.createElement("option");
-	x.text="Left Variable";
-	x.value="None";
-	x.selected=true;
-	x.disabled=true;
-	select1.appendChild(x);
-	for(i=0;i<word_list.length;i++){
-		x=document.createElement("option");
-		x.text=word_list[i];
-		x.value=word_list[i];
-		x.id=word_id_list[i];
-		if(i==word_list.length-2 && add_normal_dependency=="nextWord"){
-			x.selected=true;
-		}
-		select1.appendChild(x);
+	update_query();
+
+	if(add_normal_dependency=="nextWord"){
+		$(".dependency").eq(-1).find(".word_left").eq(0).prop('selectedIndex', window.word_list.length-1);
+		$(".dependency").eq(-1).find(".dependency_type").eq(0).prop('selectedIndex', 1);
+		$(".dependency").eq(-1).find(".word_right").eq(0).prop('selectedIndex', window.word_list.length);
 	}
-	select1.setAttribute("onchange","update_query()");
-	
-	// select2
-	select2=document.createElement("select");
-	select2.className="dependency_type";
-	select2.style="flex:1;margin:1%;width:30%;text-align:center;";
-	
-	x=document.createElement("option");
-	x.text="Dependency";
-	x.value="None";
-	x.selected=true;
-	x.disabled=true;
-	select2.appendChild(x);
-	rel_list=["nextWord","HEAD"];
-	for(i=0;i<rel_list.length;i++){
-		x=document.createElement("option");
-		x.text=rel_list[i];
-		x.value=rel_list[i];
-		if(rel_list[i]=="nextWord" && add_normal_dependency=="nextWord"){
-			x.selected=true;
-		}
-		select2.appendChild(x);
-	}
-	select2.setAttribute("onchange","update_query()");
-		
-	// select2.appendChild(document.createTextNode("HEAD"));
-
-	// select3
-	select3=document.createElement("select");
-	select3.className="word_right";
-	select3.style="flex:1;margin:1%;width:30%;";
-	x=document.createElement("option");
-	x.text="Right Variable";
-	x.value="None";
-	x.selected=true;
-	x.disabled=true;
-	select3.appendChild(x);
-	for(i=0;i<word_list.length;i++){
-		x=document.createElement("option");
-		x.text=word_list[i];
-		x.value=word_list[i];
-		x.id=word_id_list[i];
-		if(i==word_list.length-1 && add_normal_dependency=="nextWord"){
-			x.selected=true;
-		}
-		select3.appendChild(x);
-	}
-	select3.setAttribute("onchange","update_query()");
-	
-	div2.appendChild(select1);
-	div2.appendChild(select2);
-	div2.appendChild(select3);
-	
-
-	main_div.appendChild(div1);
-	main_div.appendChild(div2);
-	
-	document.getElementById('dependency_list').appendChild(main_div);
 
 }
 
@@ -504,9 +311,9 @@ function update_query(){
 	// 	console.log("test3>"+r);
 	// }
 	generate_query();
-	// console.log(window.word_query_list);
-	// console.log(window.word_id_list);
-	// console.log(window.dependency_query_list);
+	console.log(window.word_query_list);
+	console.log(window.word_id_list);
+	console.log(window.dependency_query_list);
 	document.getElementById("cqp").value=window.word_query_list.join(" ");
 	if(window.dependency_query_list.length>0){
 		document.getElementById("cqp").value+=" :: "+window.dependency_query_list.join(" & ");
