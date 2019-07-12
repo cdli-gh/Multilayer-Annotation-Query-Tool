@@ -131,11 +131,11 @@ function get_word_query(word){
 
 	query+=varible_name+":[ ";
 	inner_card=word.getElementsByClassName("inside_card");
+	first_time=true;
 	for(j=0;j<inner_card.length;j++){
 		query_in=" ( ";
 		has_info=false;
-		first_time=true;
-
+		
 		property_name=inner_card[j].getElementsByClassName("property_name");
 		property_rel=inner_card[j].getElementsByClassName("property_rel");
 		property_value=inner_card[j].getElementsByClassName("property_value");
@@ -167,6 +167,7 @@ function get_word_query(word){
 				first_time=false;
 			query+=query_in;
 		}
+		console.log(first_time);
 	}
 	query+=" ]"+range;
 
