@@ -1,6 +1,8 @@
 var counter=0; 
 var word_query_list={};
 var word_id_list=[];
+var word_name_list={};
+
 var dependency_query_list={};
 var dependency_id_list=[];
 var dependencycounter=0;
@@ -89,7 +91,7 @@ function add_word(){
 	                        <span style="margin: 0% 1%; width: 100%;">TO</span>
 	                    </div>
 	                    <button type="submit" onclick="delete_word(w${window.counter})" class="btn btn-danger" style="float: right;">Delete Word</button>
-	                    <input type="text" value="w${window.counter}" class="variable_name form-control" onchange="update_word_query(w${window.counter})" style="width: 15%; margin: 0% 1%; float: right;" disabled>
+	                    <input type="text" value="w${window.counter}" class="variable_name form-control" onchange="update_word_query(w${window.counter})" style="width: 15%; margin: 0% 1%; float: right;">
 	                </div>
 	                <div class="word_property_list card-body" style="display: flex; flex-flow: row nowrap; flex-shrink: 0; overflow-x: auto;padding-left: 0.1%;padding-right: 0.1%;">
 	                </div>
@@ -100,6 +102,7 @@ function add_word(){
 	`);
 
 	window.word_query_list[`w${window.counter}`]= `w${window.counter}:[]{1}`;
+	window.word_name_list[`w${window.counter}`]= `w${window.counter}`;
 	window.word_id_list.push(`w${window.counter}`);
 	update_dropdown();
 	write_query();
@@ -175,6 +178,16 @@ function get_word_query(word){
 }
 
 function update_word_query(word){
+	id=word.id;
+	var_name=$(".variable_name",word)[0].value;
+	if(id!=var_name && window.word_name_list[id]!=var_name ){
+		if(Object.values(window.word_name_list).includes(var_name)){
+			alert("2 words have the same variable name. Please correct that to update the query.");
+			return;
+		}
+		else
+			window.word_name_list[id]=var_name;
+	}
 	query=get_word_query(word);
 	word.getElementsByClassName("btn")[0].textContent=query;
 	window.word_query_list[word.id]=query;
