@@ -75,7 +75,7 @@ function add_word(){
 				</button>
 			</h5>
 	    </div>
-	    <div id="collapse${window.counter}" class="collapse" aria-labelledby="heading${window.counter}" data-parent="#accordionExample1">
+	    <div id="collapse${window.counter}" class="collapse" aria-labelledby="heading${window.counter}" >
 	        <div class="card-body" style="padding: 0;">
 	            <div class="word card" style="border-radius: 0%;">
 	                <div class="card-header" style="border-radius: 0%;">
@@ -228,7 +228,7 @@ function add_dependency(add_sequence_dependency=false){
 				</button>
 			</h5>
 	    </div>
-	    <div id="dependencycollapse${window.dependencycounter}" class="collapse" aria-labelledby="dependencyheading${window.dependencycounter}" data-parent="#accordionExample2">
+	    <div id="dependencycollapse${window.dependencycounter}" class="collapse" aria-labelledby="dependencyheading${window.dependencycounter}">
 	        <div class="dependency card" style="margin:0%;border-radius:0;">
 			    <div class="card-header" style="border-radius:0;">
 			        <button type="submit" onclick="delete_dependency(d${window.dependencycounter})" class="btn btn-danger" style="float: right;">Delete Dependency</button>
