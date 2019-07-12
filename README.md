@@ -1,6 +1,6 @@
 # Multi-Layer Annotation Querying Tool 
 
-## About the Project
+### About the Project
 This is a tool to integrate into a website that has the capacity to query through multiple layers of linguistic annotations like morphology, syntax and semantics annotations. 
 
 - Would be able to search through the complete data when a word or the
@@ -12,7 +12,7 @@ annotations of the word or both are defined.
 - The tool will also return data in a format that allows for easy integration into any website.
 
 
-## Tool Used :- CQP4RDF
+### Tool Used :- CQP4RDF
 
 As a backend, we have used a tool CQP4RDF.
 Why CQP?
