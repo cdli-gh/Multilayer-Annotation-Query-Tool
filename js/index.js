@@ -326,10 +326,11 @@ function update_dependency_query(dependency){
 		d=dependency_type.value.trim();
 		p=proximity.value.trim();
 		
-		if(p=="adjoining"){
-			dist="{0}";
-		}
-		else if(p=="range"){
+		// if(p=="adjoining"){
+		// 	dist="{0}";
+		// }
+		dist="";
+		if(p=="range"){
 			dist=`{${from},${to}}`;
 		}
 		else if(p=="any"){
@@ -337,29 +338,47 @@ function update_dependency_query(dependency){
 		}
 		
 		if(d=="before"){
-			query=`(${l}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${r})`;
+			if(p=="adjoining")
+				query=`(${l}.nif:nextWord=${r})`;
+			else
+				query=`(${l}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${r})`;
 		}
 		else if(dependency_type.value=="after"){
-			query=`(${r}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nif:nextWord=${l})`;
+			if(p=="adjoining")
+				query=`(${r}.nif:nextWord=${l})`;
+			else
+				query=`(${r}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nif:nextWord=${l})`;
 		}
 		else if(dependency_type.value=="before_after"){
-			query=`((${l}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${r}) | (${r}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${l}))`;
+			if(p=="adjoining")
+				query=`(${l}.nif:nextWord=${r} | ${r}.nif:nextWord=${l})`;
+			else
+				query=`((${l}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${r}) | (${r}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${l}))`;
 		}
 		else if(dependency_type.value=="head"){
-			query=`(${l}.conll:HEAD=${dependency.id} & ${dependency.id}.conll:HEAD=${r})`;
+			if(p=="adjoining")
+				query=`(${l}.conll:HEAD=${r})`;
+			else
+				query=`(${l}.conll:HEAD=${dependency.id} & ${dependency.id}.conll:HEAD=${r})`;
 		}
 		else if(dependency_type.value=="child"){
-			query=`(${r}.conll:HEAD=${dependency.id} & ${dependency.id}.conll:HEAD=${l})`;
+			if(p=="adjoining")
+				query=`(${r}.conll:HEAD=${l})`;
+			else
+				query=`(${r}.conll:HEAD=${dependency.id} & ${dependency.id}.conll:HEAD=${l})`;
 		}
 		// else if(dependency_type.value=="head_child"){
 
 		// }		
-		if(!window.word_dependency_id_list.includes(`${dependency.id}`))
+		if(p!="adjoining" && !window.word_dependency_id_list.includes(`${dependency.id}`))
 			window.word_dependency_id_list.push(`${dependency.id}`);
 		
-		window.word_query_list[`${dependency.id}`]=`${dependency.id}:[]${dist}`;
+		if(p!="adjoining"){
+			window.word_query_list[`${dependency.id}`]=`${dependency.id}:[]${dist}`;
+		}
+
 		window.dependency_query_list[dependency.id]=query;
-		
+
 		$(".btn",dependency)[0].textContent=query;
 		write_query();
 	}
