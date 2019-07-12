@@ -5,20 +5,38 @@
 	<link href="./fontawesome-free-5.9.0-web/css/all.css" rel="stylesheet"> <!--load all styles -->
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.css">
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.js"></script>
 	<script src="js/index.js"></script>
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<style type="text/css">
 		.row{
 			margin: 1%;
 		}
-		.word{
-			margin: 1%;  
-		}
 		.dependency{
-			margin: 1%;  
+			margin: 1%;
+		}
+		.accordion{
+			margin: 1% 0%;
+		}
+		#accordionExample1{
+			margin-right: 1%;
+		}
+		#accordionExample2{
+			margin-left: 1%;
+		}
+		.a::-webkit-slider-thumb {
+		  margin: 0;
+		  padding: 0;
+		}
+		.b::-webkit-slider-thumb {
+		  margin: 0;
+		  padding: 0;
 		}
 	</style>
 </head>
@@ -34,16 +52,16 @@
 	        <button type="submit" class="btn btn-primary" onclick="add_word()">
 	            ADD WORD
 	        </button>
-	        <button type="submit" class="btn btn-success" onclick="update_query()">
+	        <button type="submit" class="btn btn-success" onclick="write_query()">
 	            GENERATE QUERY
 	        </button>
 	        <button type="submit" class="btn btn-primary" onclick="add_dependency()" style="float: right;">
 	        	ADD DEPENDENCY
 	        </button>
-	        <div style="display: flex;direction: column;">
-	        	<div id="word_list" style="width:60%;">
-	        	</div>
-		        <div id="dependency_list" style="width:40%;">
+	        <div style="display: flex;direction: column;">	
+				<div class="word_list accordion" id="accordionExample1" style="width: 55%">
+				</div>	        	
+				<div class="dependency_list accordion" id="accordionExample2" style="width:45%;">
 		        </div>
 	        </div>
 	    </div>
