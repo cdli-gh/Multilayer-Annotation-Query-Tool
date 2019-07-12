@@ -1,66 +1,43 @@
-// a counter variale which would store the counter of the number of the words 
 var counter=0; 
-// a list which stores the query details for every word as a separate element
-var word_query_list=[];
-// a list which stores the id of every word for which we are defining the query
-window.word_id_list=[];
-// a list which stores the dependency b/w words
-var dependency_query_list=[];
+var word_query_list={};
+var word_id_list=[];
+var dependency_query_list={};
+var dependency_id_list=[];
+var dependencycounter=0;
+var word_dependency_id_list=[]
 
-function or_property(block, add_or=true){
-	/* 
-	The function is used to add another property in OR with the current property of that word
-	Input Arguments=>
-		block = the HTML element of the OR buttton , in order to get the conditon to add OR with 
-	for eg:- [(conll:ID = "1")] => [(conll:ID = "1" | conll:ID = "2")]
-	*/
-
-	// using the **block**, we get the OR button, and then the exact location where the conditions are specified 
+function or_property(block,word){
 	var prop=block.parentElement.parentElement.getElementsByClassName("inside_card")[0];
 
-	or_div=`<div style="text-align: center; color: rgb(102, 102, 102);">OR</div>`;
-
 	property_selector=`
+	<div style="text-align: center; color: rgb(102, 102, 102);">OR</div>
 	<select class="property_name" style="width: 100%;">
-		<option value="None" disabled="" selected>Feature</option>
-		<option value="ID">ID</option>
-		<option value="FORM">FORM</option>
-		<option value="LEMMA">LEMMA</option>
-		<option value="UPOSTAG">UPOSTAG</option>
-		<option value="XPOSTAG">XPOSTAG</option>
-		<option value="FEATS">FEATS</option>
-		<option value="DEPREL">DEPREL</option>
-	</select>
-	<i class="property_rel fa fa-equals" onclick="inverse(this)" style="margin: 0px 45%;"></i>
-	<input type="text" class="property_value" onchange="update_query()" style="width: 100%; margin: 1%;">`;
+        <option value="None" disabled selected>Feature</option>
+        <option value="ID">ID</option>
+        <option value="FORM">FORM</option>
+        <option value="LEMMA">LEMMA</option>
+        <option value="UPOSTAG">UPOSTAG</option>
+        <option value="XPOSTAG">XPOSTAG</option>
+        <option value="FEATS">FEATS</option>
+        <option value="DEPREL">DEPREL</option>
+    </select>
+	<i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
+	<input type="text" class="property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">`;
 
-	content="";
-	
-	if(add_or){
-		content+=or_div;
-	}
-
-	content+=property_selector;
-
-	$(prop).append(content);	
+	$(prop).append(property_selector);	
 }
 
-function add_property(block){
-	/*
-	The functions adds a new property for the given word in an AND relation to that word
-	Input Arguments=>
-		block = the HTML element of the Word block , in order to get the Word to append the condition 
-	for eg:- [(conll:ID = "1")] => [(conll:ID = "1") & (conll:UPOSTAG = "NOUN")]	
-	*/
-
-	// gets the html element using the **block** to get the word to whic we want to add the property
-	var properties = block.parentElement.parentElement.getElementsByClassName("word_property_list")[0];
+function add_property(word){
+	var properties = word.getElementsByClassName("word_property_list")[0];
 	
+	and=`
+	<div class="and" style="color: rgb(102, 102, 102); display: flex; justify-content: center; flex-direction: column; text-align: center;">AND</div>
+	`;
 	content=`
-	<div class="card" style="min-width: 20vw; width: 20vw; margin: 1%;">
+	<div class="card" style="min-width: 20vw; width: 20vw;">
         <div class="card-header header_card">
-            <button type="submit" onclick="or_property(this)" class="btn btn-primary" style="width: 40%; float: left; margin: 1%;">OR</button>
-            <button type="submit" onclick="delete_property(this)" class="btn btn-danger" style="width: 40%; float: right; margin: 1%;">Delete</button>
+            <button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 40%; float: left; margin: 1%;">OR</button>
+            <button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 40%; float: right; margin: 1%;">Delete</button>
         </div>
         <div class="inside_card card-body" style="width: 100%; margin: 1%;">
             <select class="property_name" style="width: 100%;">
@@ -73,93 +50,72 @@ function add_property(block){
                 <option value="FEATS">FEATS</option>
                 <option value="DEPREL">DEPREL</option>
             </select>
-            <i class="property_rel fa fa-equals" onclick="inverse(this)" style="margin: 0px 45%;"></i>
-            <input type="text" class="property_value" onchange="update_query()" style="width: 100%; margin: 1%;">
+            <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
+            <input type="text" class="property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">
         </div>
     </div>
 	`;
+
+	if(properties.children.length>0){
+		content=and+content;
+	}
+
 	$(properties).append(content);
 }
 
 function add_word(){
-	/*
-	The function adds a new word to the CQP query
-	for eg:- [(conll:ID="1")] ==add_word==>> [(conll:ID="1")] [(conll:ID="2")]
-	*/
 	window.counter+=1;
-	word_list=document.getElementById('word_list');
+	word_list=document.getElementsByClassName('word_list')[0];
 	$(word_list).append(`
-	<div class="word card">
-		<div class="card-header">
-			<button type="submit" onclick="add_property(this)" class="btn btn-primary" style="float: left;">Add Property</button>
-			<div style="width: 10%; margin: 0% 1%; float: left; text-align: center;">
-				<input type="text" value="1" class="range_from form-control" placeholder="FROM" onchange="update_query()" style="width: 100%; margin: 0% 1%;">
-				<span style="width: 100%; margin: 0% 1%;">FROM</span>
-			</div>
-			<div style="width: 10%; margin: 0% 1%; float: left; text-align: center;">
-				<input type="text" value="1" class="range_to form-control" placeholder="to" onchange="update_query()" style="width: 100%; margin: 0% 1%;">
-				<span style="margin: 0% 1%; width: 100%;">TO</span>
-			</div>
-			<button type="submit" onclick="delete_word(this)" class="btn btn-danger" style="float: right;">Delete Word</button>
-			<input type="text" id="w${window.counter}" value="w${window.counter}" class="variable_name form-control" onchange="update_query()" style="width: 15%; margin: 0% 1%; float: right;">
-		</div>
-		<div class="word_property_list card-body" style="display: flex; flex-flow: row nowrap; flex-shrink: 0; overflow-x: auto;">
-		</div>
+	<div class="card" id=w${window.counter}>
+	    <div class="card-header" id="heading${window.counter}" style="padding: 0;">
+	        <h5 class="mb-0">
+				<button class="btn" type="button" data-toggle="collapse" data-target="#collapse${window.counter}" aria-expanded="true" aria-controls="collapse${window.counter}" style="margin: 0; width: 100%; height: 100%;">
+					w${window.counter}
+				</button>
+			</h5>
+	    </div>
+	    <div id="collapse${window.counter}" class="collapse" aria-labelledby="heading${window.counter}" data-parent="#accordionExample1">
+	        <div class="card-body" style="padding: 0;">
+	            <div class="word card" style="border-radius: 0%;">
+	                <div class="card-header" style="border-radius: 0%;">
+	                    <button type="submit" onclick="add_property(w${window.counter})" class="btn btn-primary" style="float: left;">Add Property</button>
+	                    <div style="width: 10%; margin: 0% 1%; float: left; text-align: center;">
+	                        <input type="text" value="1" class="range_from form-control" placeholder="FROM" onchange="update_word_query(w${window.counter})" style="width: 100%; margin: 0% 1%;">
+	                        <span style="width: 100%; margin: 0% 1%;">FROM</span>
+	                    </div>
+	                    <div style="width: 10%; margin: 0% 1%; float: left; text-align: center;">
+	                        <input type="text" value="1" class="range_to form-control" placeholder="to" onchange="update_word_query(w${window.counter})" style="width: 100%; margin: 0% 1%;">
+	                        <span style="margin: 0% 1%; width: 100%;">TO</span>
+	                    </div>
+	                    <button type="submit" onclick="delete_word(w${window.counter})" class="btn btn-danger" style="float: right;">Delete Word</button>
+	                    <input type="text" value="w${window.counter}" class="variable_name form-control" onchange="update_word_query(w${window.counter})" style="width: 15%; margin: 0% 1%; float: right;" disabled>
+	                </div>
+	                <div class="word_property_list card-body" style="display: flex; flex-flow: row nowrap; flex-shrink: 0; overflow-x: auto;padding-left: 0.1%;padding-right: 0.1%;">
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 	`);
 
-	
-	
-	if(window.word_query_list.length>0){
-		add_dependency(add_normal_dependency="nextWord");	
-	}
-	
-	update_query();	
+	window.word_query_list[`w${window.counter}`]= `w${window.counter}:[]{1}`;
+	window.word_id_list.push(`w${window.counter}`);
+	update_dropdown();
+	write_query();
 
+	if(window.word_id_list.length>1){
+		add_dependency(add_sequence_dependency=true);
+	}
 }
 
-function add_dependency(add_normal_dependency=null){
-	
-	dependency_list=document.getElementById('dependency_list');
 
-	dependency_box=`
-	<div class="dependency card">
-	    <div class="card-header">
-	        <button type="submit" onclick="delete_dependency(this)" class="btn btn-danger" style="float: right;">Delete Dependency</button>
-	    </div>
-	    <div class="card-body" style="display: flex; align-items: center; justify-content: center;">
-	        <select class="word_left" onchange="update_query()" style="flex: 1 1 0%; margin: 1%; width: 30%;">
-	            <option value="None" disabled selected>Left Variable</option>
-	        </select>
-	        <select class="dependency_type" onchange="update_query()" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
-	            <option value="None" disabled selected>Dependency</option>
-	            <option value="nextWord">nextWord</option>
-	            <option value="HEAD">HEAD</option>
-	        </select>
-	        <select class="word_right" onchange="update_query()" style="flex: 1 1 0%; margin: 1%; width: 30%;">
-	            <option value="None" disabled selected>Right Variable</option>
-	        </select>
-	    </div>
-	</div>`;
-
-	$(dependency_list).append(dependency_box);
-
-	update_query();
-
-	if(add_normal_dependency=="nextWord"){
-		$(".dependency").eq(-1).find(".word_left").eq(0).prop('selectedIndex', window.word_list.length-1);
-		$(".dependency").eq(-1).find(".dependency_type").eq(0).prop('selectedIndex', 1);
-		$(".dependency").eq(-1).find(".word_right").eq(0).prop('selectedIndex', window.word_list.length);
-	}
-
-}
-
-function get_word_query(word_prop){
+function get_word_query(word){
 	query="";
-	varible_name=word_prop.parentElement.children[0].getElementsByClassName("variable_name")[0].value;
+	varible_name=word.getElementsByClassName("variable_name")[0].value;
 	
-	range_from=word_prop.parentElement.children[0].getElementsByClassName("range_from")[0].value;
-	range_to=word_prop.parentElement.children[0].getElementsByClassName("range_to")[0].value;	
+	range_from=word.getElementsByClassName("range_from")[0].value;
+	range_to=word.getElementsByClassName("range_to")[0].value;	
 	range="{"+range_from+", "+range_to+"} ";
 	if(range_to.trim()=="inf"){
 		if(range_from.trim()=="0"){
@@ -174,10 +130,11 @@ function get_word_query(word_prop){
 	}
 
 	query+=varible_name+":[ ";
-	inner_card=word_prop.getElementsByClassName("inside_card");
+	inner_card=word.getElementsByClassName("inside_card");
 	for(j=0;j<inner_card.length;j++){
 		query_in=" ( ";
 		has_info=false;
+		first_time=true;
 
 		property_name=inner_card[j].getElementsByClassName("property_name");
 		property_rel=inner_card[j].getElementsByClassName("property_rel");
@@ -186,7 +143,7 @@ function get_word_query(word_prop){
 		for(k=0;k<property_name.length;k++){
 			name=property_name[k].value;
 			rel=property_rel[k];
-			value=property_value[k].value;
+			value=property_value[k].value.trim();
 			
 			if(name!="None" && value!=""){
 				if(has_info==true)
@@ -203,148 +160,277 @@ function get_word_query(word_prop){
 		}
 		query_in+=" ) ";
 		if(has_info){
-			if(j!=0){
+			if(j!=0 && !first_time){
 				query+=" & ";
 			}
+			if(first_time)
+				first_time=false;
 			query+=query_in;
 		}
 	}
 	query+=" ]"+range;
+
 	return query;
 }
 
-function update_dropdowns(){
-	left_variables=document.getElementsByClassName("word_left");
-	for(i=0;i<left_variables.length;i++){
-		drop_list=left_variables[i];
-		original_selected_id=drop_list[drop_list.selectedIndex].id;
-		// console.log("test4>"+original_selected_id);
-		drop_list.options.length=1;
-		drop_list.options[0].selected=true;
-		for(j=0;j<window.word_query_list.length;j++){
-			x=document.createElement("option");
-			v=window.word_query_list[j];
-			id=window.word_id_list[j];
-			if(id==original_selected_id){
-				// console.log(original_selected_id);
-				x.selected=true;	
-			}
-			x.text=v;
-			x.value=v;
-			x.id=id;
-			drop_list.appendChild(x);		
-		}
-	}
-
-	right_variables=document.getElementsByClassName("word_right");
-	for(i=0;i<right_variables.length;i++){
-		drop_list=right_variables[i];
-		original_selected_id=drop_list[drop_list.selectedIndex].id;
-		// console.log("test4>"+original_selected_id);
-		drop_list.options.length=1;
-		drop_list.options[0].selected=true;
-		for(j=0;j<window.word_query_list.length;j++){
-			x=document.createElement("option");
-			v=window.word_query_list[j];
-			id=window.word_id_list[j];
-			if(id==original_selected_id){
-				// console.log(original_selected_id);
-				x.selected=true;	
-			}
-			x.text=v;
-			x.value=v;
-			x.id=id;
-			drop_list.appendChild(x);		
-		}
-	}
+function update_word_query(word){
+	query=get_word_query(word);
+	word.getElementsByClassName("btn")[0].textContent=query;
+	window.word_query_list[word.id]=query;
+	write_query();
+	update_dropdown();
 }
 
-function generate_query(){
+function write_query(){
+	query1="";
+	for(i=0;i<window.word_id_list.length;i++){
+		if(window.word_query_list[window.word_id_list[i]].trim()!="")
+			query1+=window.word_query_list[window.word_id_list[i]]+" ";
+	} 
+	for(i=0;i<window.word_dependency_id_list.length;i++){
+		if(window.word_query_list[window.word_dependency_id_list[i]].trim()!="")
+			query1+=window.word_query_list[window.word_dependency_id_list[i]]+" ";
+	} 
 	
-	var block=document.getElementById("cqp");
-	var word_prop_list=document.getElementsByClassName("word_property_list");
-	
-	word_list=[];
-	id_list=[];
+	query2="";
+	first=true;
+	for(i=0;i<window.dependency_id_list.length;i++){
+		if(window.dependency_query_list[window.dependency_id_list[i]].trim()!=""){
+			if(first){
+				query2+=" :: ";
+				first=false;
+			}
+			else{
+				query2+=" & ";
+			}
+			query2+=window.dependency_query_list[window.dependency_id_list[i]]+" ";
+		}
+	} 
 
-	for(i=0;i<word_prop_list.length;i++){
-		word_list.push(get_word_query(word_prop_list[i]));
-		id_list.push(word_prop_list[i].parentElement.getElementsByClassName("variable_name")[0].id);
+	query=query1+query2.trim();
+	document.getElementById("cqp").value=query;
+}
+
+
+function add_dependency(add_sequence_dependency=false){
+	
+	dependency_list=document.getElementsByClassName('dependency_list')[0];
+
+	window.dependencycounter+=1;
+
+	dependency_box=`
+	<div class="card" id=d${window.dependencycounter}>
+	    <div class="card-header" id="dependencyheading${window.dependencycounter}" style="padding: 0;">
+	        <h5 class="mb-0">
+				<button class="btn" type="button" data-toggle="collapse" data-target="#dependencycollapse${window.dependencycounter}" aria-expanded="true" aria-controls="dependencycollapse${window.dependencycounter}" style="margin: 0; width: 100%; height: 100%;">
+					d${window.dependencycounter}
+				</button>
+			</h5>
+	    </div>
+	    <div id="dependencycollapse${window.dependencycounter}" class="collapse" aria-labelledby="dependencyheading${window.dependencycounter}" data-parent="#accordionExample2">
+	        <div class="dependency card" style="margin:0%;border-radius:0;">
+			    <div class="card-header" style="border-radius:0;">
+			        <button type="submit" onclick="delete_dependency(d${window.dependencycounter})" class="btn btn-danger" style="float: right;">Delete Dependency</button>
+			    </div>
+			    <div class="card-body" style="display: flex; align-items: center; justify-content: center;">
+			        <select class="word_left" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%;">
+			            <option value="None" disabled selected>Left Variable</option>
+			        </select>
+			        <select class="dependency_type" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
+			            <option value="None" disabled selected>Dependency</option>
+			            <optgroup label="Morphological">
+			            	<option value="before" selected=${add_sequence_dependency}>Before</option>
+			            	<option value="after">After</option>
+			            	<option value="before_after" deactivated>Both</option>
+			            </optgroup>
+			            <optgroup label="Syntactic">
+			            	<option value="head">Head</option>
+			            	<option value="child">Child</option>
+			            	<option value="head_child" deactivated>Both</option>
+			            </optgroup>
+			        </select>
+			        <select class="proximity" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
+			        	<option value="adjoining" selected=${add_sequence_dependency}>Adjoining</option>
+			        	<option value="range">Range</option>
+			        	<option value="any">Any</option>
+			        </select>
+			        <select class="word_right" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%;">
+			            <option value="None" disabled selected>Right Variable</option>
+			        </select>
+			    </div>
+
+				<div class="slider" style="margin:0% 5% 2% 5%; display:inline;">
+					<center>
+					<span class="left_value" style="width:10%;"></span>
+					<span> - </span>
+					<span class="right_value" style="width:10%;"></span>
+				    </center>
+				    <div class="test-slider"></div>
+				</div>	
+
+			</div>
+	    </div>
+	</div>
+	`;
+
+	$(dependency_list).append(dependency_box);
+
+	var left_value= $('.left_value',dependency_list).eq(-1)[0];
+	var slider = $('.test-slider',dependency_list).eq(-1)[0];
+	var right_value=$('.right_value',dependency_list).eq(-1)[0];
+
+	noUiSlider.create(slider, {
+	    start: [0,10],
+	    connect: true,
+	    step: 1,
+	    range: {
+	        'min': 0,
+	        'max': 20
+	    },
+	});
+
+	var snapValues = [ left_value,right_value ];
+
+	slider.noUiSlider.on('update', function (values, handle) {
+    	snapValues[handle].textContent = parseInt(values[handle]);
+    	update_dependency_query($(`#d${window.dependencycounter}`)[0]);
+	});
+
+	window.dependency_id_list.push(`d${window.dependencycounter}`);
+	window.dependency_query_list[`d${window.dependencycounter}`]="";
+
+	update_dropdown(add_sequence_dependency);
+	update_dependency_query($(`#d${window.dependencycounter}`)[0]);
+}
+
+function update_dependency_query(dependency){
+	left=$(".word_left",dependency)[0];
+	dependency_type=$(".dependency_type",dependency)[0];
+	proximity=$(".proximity",dependency)[0];
+	right=$(".word_right",dependency)[0];
+
+	if(proximity.value =="range"){
+		$(".slider",dependency).show();
+		from=$(".left_value",dependency)[0].textContent;
+		to=$(".right_value",dependency)[0].textContent;
 	}
-	window.word_query_list=word_list;
-	window.word_id_list=id_list;
+	else{
+		$(".slider",dependency).hide();
+	}
 
-	update_dropdowns();
+	if(left.value!="None" && dependency_type.value!="None" && right.value!="None"){
 
-	var dependency_prop_list=document.getElementsByClassName("dependency");
-
-	dependency_list=[];
-
-	for(i=0;i<dependency_prop_list.length;i++){
-		l=dependency_prop_list[i].getElementsByClassName("word_left")[0].value.split(":")[0].trim();
-		d=dependency_prop_list[i].getElementsByClassName("dependency_type")[0].value.trim();
-		r=dependency_prop_list[i].getElementsByClassName("word_right")[0].value.split(":")[0].trim();
-		// console.log("test>"+l);
-		// console.log("test>"+d);
-		// console.log("test>"+r);
+		l=left.value.split(":")[0].trim();
+		r=right.value.split(":")[0].trim();
+		d=dependency_type.value.trim();
+		p=proximity.value.trim();
 		
-		if(l!="None" && d!="None" && r!="None"){
-			if(d=="HEAD")
-				query=l+".conll:HEAD="+r;
-			else if(d=="nextWord")
-				query=l+".conll:nextWord="+r;
-			dependency_list.push(query);
+		if(p=="adjoining"){
+			dist="{0}";
 		}
+		else if(p=="range"){
+			dist=`{${from},${to}}`;
+		}
+		else if(p=="any"){
+			dist="*";
+		}
+		
+		if(d=="before"){
+			query=`(${l}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${r})`;
+		}
+		else if(dependency_type.value=="after"){
+			query=`(${r}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nif:nextWord=${l})`;
+		}
+		else if(dependency_type.value=="before_after"){
+			query=`((${l}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${r}) | (${r}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${l}))`;
+		}
+		else if(dependency_type.value=="head"){
+			query=`(${l}.conll:HEAD=${dependency.id} & ${dependency.id}.conll:HEAD=${r})`;
+		}
+		else if(dependency_type.value=="child"){
+			query=`(${r}.conll:HEAD=${dependency.id} & ${dependency.id}.conll:HEAD=${l})`;
+		}
+		// else if(dependency_type.value=="head_child"){
+
+		// }		
+		if(!window.word_dependency_id_list.includes(`${dependency.id}`))
+			window.word_dependency_id_list.push(`${dependency.id}`);
+		
+		window.word_query_list[`${dependency.id}`]=`${dependency.id}:[]${dist}`;
+		window.dependency_query_list[dependency.id]=query;
+		
+		$(".btn",dependency)[0].textContent=query;
+		write_query();
 	}
-	window.dependency_query_list=dependency_list;
+} 
+
+function update_dropdown(add_sequence_dependency=false){
+	$("select.word_left").map(function(){
+		selected_option=this[this.selectedIndex].value.split(":")[0].trim();
+		this.options.length=1;
+		this.options[0].selected=true;
+
+		if(add_sequence_dependency)
+			selected_option=window.word_id_list[window.word_id_list.length-2];
+					
+		for(i=0;i<window.word_id_list.length;i++){
+			selected="";
+			if(window.word_id_list[i].trim()==selected_option.trim())
+				selected="selected";
+			$(this).append(`<option value="${window.word_query_list[window.word_id_list[i]]}" ${selected}> ${window.word_query_list[window.word_id_list[i]]} </option>`);
+		}
+	});
+	$("select.word_right").map(function(){
+		selected_option=this[this.selectedIndex].value.split(":")[0].trim();
+		this.options.length=1;
+		this.options[0].selected=true;
+
+		if(add_sequence_dependency)
+			selected_option=window.word_id_list[window.word_id_list.length-1];
+
+		for(i=0;i<window.word_id_list.length;i++){
+			selected="";
+			if(window.word_id_list[i].trim()==selected_option.trim())
+				selected="selected";
+			$(this).append(`<option value="${window.word_query_list[window.word_id_list[i]]}" ${selected}> ${window.word_query_list[window.word_id_list[i]]} </option>`);
+		}
+	});
+}
+
+function delete_dependency(dependency){
+	dependency.remove();
+	delete window.dependency_query_list[dependency.id];
+	window.dependency_id_list.splice(window.dependency_id_list.indexOf(dependency.id),1);
+	
+	delete window.word_query_list[dependency.id];
+	window.word_dependency_id_list.splice(window.word_dependency_id_list.indexOf(dependency.id),1);
+	
+	write_query();
 }
 
 
-function update_query(){
-	// var dependency_prop_list=document.getElementsByClassName("dependency");
-	// for(i=0;i<dependency_prop_list.length;i++){
-	// 	l=dependency_prop_list[i].getElementsByClassName("word_left")[0].value.split(":")[0].trim();
-	// 	d=dependency_prop_list[i].getElementsByClassName("dependency_type")[0].value.trim();
-	// 	r=dependency_prop_list[i].getElementsByClassName("word_right")[0].value.split(":")[0].trim();
-	// 	console.log("test3>"+l);
-	// 	console.log("test3>"+d);
-	// 	console.log("test3>"+r);
-	// }
-	generate_query();
-	console.log(window.word_query_list);
-	console.log(window.word_id_list);
-	console.log(window.dependency_query_list);
-	document.getElementById("cqp").value=window.word_query_list.join(" ");
-	if(window.dependency_query_list.length>0){
-		document.getElementById("cqp").value+=" :: "+window.dependency_query_list.join(" & ");
-	}
-}
-
-
-function delete_word(block){
-	var word=block.parentElement.parentElement;
+function delete_word(word){
 	word.remove();
-	update_query();
+
+	delete window.word_query_list[word.id];
+	window.word_id_list.splice(window.word_id_list.indexOf(word.id),1);
+	write_query();
+	update_dropdown();
 }
 
-function delete_property(block){
+function delete_property(block,word){
 	var prop=block.parentElement.parentElement;
-	// if not the first child of the parent
-	if(prop.previousSibling!=null){
-		prop.previousSibling.remove();
+	if(prop.previousElementSibling!=null && prop.previousElementSibling.textContent=="AND"){
+		prop.previousElementSibling.remove();
+	}
+	else if(prop.nextElementSibling!=null && prop.nextElementSibling.textContent=="AND"){
+		prop.nextElementSibling.remove();
 	}
 	prop.remove();
-	update_query();	
+	update_word_query(word);
 }
 
-function inverse(sign){
-	/*
-	The function is used to inverse the sign of the equal(=) sign to not-equal(!=) sign and vice versa on being clicked 
-	input arguments=>
-		sign = the HTML element of the equals/not-equals sign  
-	*/
-
-	// check if the sign is equals
+function inverse(sign,word){
 	if(sign.classList.contains("fa-equals")){
 		// if the sign is equals, then change it to not-equals
 		sign.classList.replace("fa-equals","fa-not-equal");
@@ -354,12 +440,8 @@ function inverse(sign){
 		// if the sign is not-equals, then change it to equals 
 		sign.classList.replace("fa-not-equal","fa-equals");
 	}
-	update_query();
 
+	update_word_query(word);
 }
 
-function delete_dependency(block){
-	var dependency=block.parentElement.parentElement;
-	dependency.remove();
-}
 
