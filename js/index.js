@@ -252,15 +252,15 @@ function add_dependency(add_sequence_dependency=false){
 			        </select>
 			        <select class="dependency_type" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
 			            <option value="None" disabled selected>Dependency</option>
-			            <optgroup label="Morphological">
+			            <optgroup label="Linear">
 			            	<option value="before" selected=${add_sequence_dependency}>Before</option>
 			            	<option value="after">After</option>
-			            	<option value="before_after" deactivated>Both</option>
+			            	<option value="before_after" deactivated>Before/After</option>
 			            </optgroup>
 			            <optgroup label="Syntactic">
 			            	<option value="head">Head</option>
 			            	<option value="child">Child</option>
-			            	<option value="head_child" deactivated>Both</option>
+			            	<option value="head_child" deactivated>Head/Child</option>
 			            </optgroup>
 			        </select>
 			        <select class="proximity" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
