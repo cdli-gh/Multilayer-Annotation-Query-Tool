@@ -247,10 +247,10 @@ function add_dependency(add_sequence_dependency=false){
 			        <button type="submit" onclick="delete_dependency(d${window.dependencycounter})" class="btn btn-danger" style="float: right;">Delete Dependency</button>
 			    </div>
 			    <div class="card-body" style="display: flex; align-items: center; justify-content: center;">
-			        <select class="word_left" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%;">
+			        <select class="word_left form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%;">
 			            <option value="None" disabled selected>Left Variable</option>
 			        </select>
-			        <select class="dependency_type" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
+			        <select class="dependency_type form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
 			            <option value="None" disabled selected>Dependency</option>
 			            <optgroup label="Linear">
 			            	<option value="before" selected=${add_sequence_dependency}>Before</option>
@@ -263,12 +263,12 @@ function add_dependency(add_sequence_dependency=false){
 			            	<option value="head_child" deactivated>Head/Child</option>
 			            </optgroup>
 			        </select>
-			        <select class="proximity" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
+			        <select class="proximity form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
 			        	<option value="adjoining" selected=${add_sequence_dependency}>Adjoining</option>
 			        	<option value="range">Range</option>
 			        	<option value="any">Any</option>
 			        </select>
-			        <select class="word_right" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%;">
+			        <select class="word_right form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%;">
 			            <option value="None" disabled selected>Right Variable</option>
 			        </select>
 			    </div>
