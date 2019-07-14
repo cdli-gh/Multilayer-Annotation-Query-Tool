@@ -36,7 +36,7 @@ function add_property(word){
 	<div class="and" style="color: rgb(102, 102, 102); display: flex; justify-content: center; flex-direction: column; text-align: center;">AND</div>
 	`;
 	content=`
-	<div class="card" style="min-width: 20vw; width: 20vw;">
+	<div class="card shadow" style="min-width: 20vw; width: 20vw;">
         <div class="card-header header_card">
             <button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 40%; float: left; margin: 1%;">OR</button>
             <button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 40%; float: right; margin: 1%;">Delete</button>
@@ -69,7 +69,7 @@ function add_word(){
 	window.counter+=1;
 	word_list=document.getElementsByClassName('word_list')[0];
 	$(word_list).append(`
-	<div class="card" id=w${window.counter}>
+	<div class="card shadow" id=w${window.counter}>
 	    <div class="card-header" id="heading${window.counter}" style="padding: 0;">
 	        <h5 class="mb-0">
 				<button class="btn" type="button" data-toggle="collapse" data-target="#collapse${window.counter}" aria-expanded="true" aria-controls="collapse${window.counter}" style="margin: 0; width: 100%; height: 100%;">
@@ -233,7 +233,7 @@ function add_dependency(add_sequence_dependency=false){
 	window.dependencycounter+=1;
 
 	dependency_box=`
-	<div class="card" id=d${window.dependencycounter}>
+	<div class="card shadow" id=d${window.dependencycounter}>
 	    <div class="card-header" id="dependencyheading${window.dependencycounter}" style="padding: 0;">
 	        <h5 class="mb-0">
 				<button class="btn" type="button" data-toggle="collapse" data-target="#dependencycollapse${window.dependencycounter}" aria-expanded="true" aria-controls="dependencycollapse${window.dependencycounter}" style="margin: 0; width: 100%; height: 100%;">
