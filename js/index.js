@@ -13,7 +13,7 @@ function or_property(block,word){
 
 	property_selector=`
 	<div style="text-align: center; color: rgb(102, 102, 102);">OR</div>
-	<select class="property_name" style="width: 100%;">
+	<select class="property_name form-control" style="width: 100%;">
         <option value="None" disabled selected>Feature</option>
         <option value="ID">ID</option>
         <option value="FORM">FORM</option>
@@ -42,7 +42,7 @@ function add_property(word){
             <button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 40%; float: right; margin: 1%;">Delete</button>
         </div>
         <div class="inside_card card-body" style="width: 100%; margin: 1%;">
-            <select class="property_name" style="width: 100%;">
+            <select class="property_name form-control" style="width: 100%;">
                 <option value="None" disabled="" selected="">Feature</option>
                 <option value="ID">ID</option>
                 <option value="FORM">FORM</option>
