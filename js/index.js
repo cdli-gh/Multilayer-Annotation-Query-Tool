@@ -380,9 +380,12 @@ function update_dependency_query(dependency){
 			else
 				query=`(${r}.conll:HEAD=${dependency.id} & ${dependency.id}.conll:HEAD=${l})`;
 		}
-		// else if(dependency_type.value=="head_child"){
-
-		// }		
+		else if(dependency_type.value=="head_child"){
+			if(p=="adjoining")
+				query=`(${l}.conll:HEAD=${r} | ${r}.conll:HEAD=${l})`;
+			else
+				query=`((${l}.conll:HEAD=${dependency.id} & ${dependency.id}.conll:HEAD=${r}) | (${r}.nif:nextWord=${dependency.id} & ${dependency.id}.nif:nextWord=${l}))`;
+		}		
 		if(p!="adjoining" && !window.word_dependency_id_list.includes(`${dependency.id}`))
 			window.word_dependency_id_list.push(`${dependency.id}`);
 		
