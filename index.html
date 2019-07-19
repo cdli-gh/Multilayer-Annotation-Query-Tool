@@ -23,12 +23,12 @@
 		.accordion{
 			margin: 1% 0%;
 		}
-		#accordionExample1{
+		/*#accordionExample1{
 			margin-right: 1%;
 		}
 		#accordionExample2{
 			margin-left: 1%;
-		}
+		}*/
 		.a::-webkit-slider-thumb {
 		  margin: 0;
 		  padding: 0;
@@ -48,21 +48,29 @@
 	        Input Form
 	    </div>
 	    <div class="card-body">
-	        <button type="submit" class="btn btn-primary" onclick="add_word()">
-	            ADD WORD
-	        </button>
-	        <button type="submit" class="btn btn-success" onclick="write_query()">
-	            GENERATE QUERY
-	        </button>
-	        <button type="submit" class="btn btn-primary" onclick="add_dependency()" style="float: right;">
-	        	ADD DEPENDENCY
-	        </button>
-	        <div style="display: flex;direction: column;">	
-				<div class="word_list accordion" id="accordionExample1" style="width: 55%">
-				</div>	        	
-				<div class="dependency_list accordion" id="accordionExample2" style="width:45%;">
+	    	<div class="row">
+		        <div class="col-xs-12 col-md-4" style="padding: 1% 5%">
+			        <button type="submit" class="btn btn-primary" style="width: 100%" onclick="add_word()">
+			            ADD WORD
+			        </button>
+			    </div>
+			    <div class="col-xs-12 col-md-4" style="padding: 1% 5%">
+			        <button type="submit" class="btn btn-success" style="width: 100%" onclick="write_query()">
+			            GENERATE QUERY
+			        </button>
+			    </div>
+			    <div class="col-xs-12 col-md-4" style="padding: 1% 5%">
+		        	<button type="submit" class="btn btn-primary" onclick="add_dependency()" style="width: 100%">
+		        	ADD DEPENDENCY
+		        	</button>
 		        </div>
-	        </div>
+		    </div>
+	        <div class="row">	
+				<div class="word_list accordion col-xs-12 col-md-6" id="accordionExample1">
+				</div>	        	
+				<div class="dependency_list accordion col-xs-12 col-md-6" id="accordionExample2">
+		        </div>
+			</div>
 	    </div>
 	</div>
 	
