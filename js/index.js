@@ -401,36 +401,39 @@ function update_dependency_query(dependency){
 } 
 
 function update_dropdown(add_sequence_dependency=false){
-	$("select.word_left").map(function(){
-		selected_option=this[this.selectedIndex].value.split(":")[0].trim();
-		this.options.length=1;
-		this.options[0].selected=true;
+	left=$("select.word_left");
+	for(j=0;j<left.length;j++){
+		selected_option=left[j][left[j].selectedIndex].value.split(":")[0].trim();
+		left[j].options.length=1;
+		left[j].options[0].selected=true;
 
-		if(add_sequence_dependency)
+		if(add_sequence_dependency && j==left.length-1)
 			selected_option=window.word_id_list[window.word_id_list.length-2];
 					
 		for(i=0;i<window.word_id_list.length;i++){
 			selected="";
 			if(window.word_id_list[i].trim()==selected_option.trim())
 				selected="selected";
-			$(this).append(`<option value="${window.word_query_list[window.word_id_list[i]]}" ${selected}> ${window.word_query_list[window.word_id_list[i]]} </option>`);
+			$(left[j]).append(`<option value="${window.word_query_list[window.word_id_list[i]]}" ${selected}> ${window.word_query_list[window.word_id_list[i]]} </option>`);
 		}
-	});
-	$("select.word_right").map(function(){
-		selected_option=this[this.selectedIndex].value.split(":")[0].trim();
-		this.options.length=1;
-		this.options[0].selected=true;
+	}
+	
+	right=$("select.word_right");
+	for(j=0;j<right.length;j++){
+		selected_option=right[j][right[j].selectedIndex].value.split(":")[0].trim();
+		right[j].options.length=1;
+		right[j].options[0].selected=true;
 
-		if(add_sequence_dependency)
+		if(add_sequence_dependency && j==right.length-1)
 			selected_option=window.word_id_list[window.word_id_list.length-1];
 
 		for(i=0;i<window.word_id_list.length;i++){
 			selected="";
 			if(window.word_id_list[i].trim()==selected_option.trim())
 				selected="selected";
-			$(this).append(`<option value="${window.word_query_list[window.word_id_list[i]]}" ${selected}> ${window.word_query_list[window.word_id_list[i]]} </option>`);
+			$(right[j]).append(`<option value="${window.word_query_list[window.word_id_list[i]]}" ${selected}> ${window.word_query_list[window.word_id_list[i]]} </option>`);
 		}
-	});
+	}
 }
 
 function delete_dependency(dependency){
