@@ -80,18 +80,27 @@ function add_word(){
 	    <div id="collapse${window.counter}" class="collapse" aria-labelledby="heading${window.counter}" >
 	        <div class="card-body" style="padding: 0;">
 	            <div class="word card" style="border-radius: 0%;">
-	                <div class="card-header" style="border-radius: 0%;">
-	                    <button type="submit" onclick="add_property(w${window.counter})" class="btn btn-primary" style="float: left;">Add Property</button>
-	                    <div style="width: 10%; margin: 0% 1%; float: left; text-align: center;">
-	                        <input type="text" value="1" class="range_from form-control" placeholder="FROM" onchange="update_word_query(w${window.counter})" style="width: 100%; margin: 0% 1%;">
-	                        <span style="width: 100%; margin: 0% 1%;">FROM</span>
-	                    </div>
-	                    <div style="width: 10%; margin: 0% 1%; float: left; text-align: center;">
-	                        <input type="text" value="1" class="range_to form-control" placeholder="to" onchange="update_word_query(w${window.counter})" style="width: 100%; margin: 0% 1%;">
-	                        <span style="margin: 0% 1%; width: 100%;">TO</span>
-	                    </div>
-	                    <button type="submit" onclick="delete_word(w${window.counter})" class="btn btn-danger" style="float: right;">Delete Word</button>
-	                    <input type="text" value="w${window.counter}" class="variable_name form-control" onchange="update_word_query(w${window.counter})" style="width: 15%; margin: 0% 1%; float: right;">
+	                <div class="card-header row" style="border-radius: 0%;margin: 0%;">
+	                    <div class="col-md-3" style="padding: 0% 1%; margin:2% 0% 0% 0%;">
+							<button type="submit" onclick="add_property(w${window.counter})" class="btn btn-primary" style="width:100%;">Add Property</button>
+						</div>
+	                    <div class="col-md-3 row" style="margin:2% 0% 0% 0%;text-align: center;padding: 0% 1%;">
+	                		<div style="width: 50%;">
+	                			<input type="text" value="1" class="range_from form-control" placeholder="FROM" onchange="update_word_query(w${window.counter})" style="text-align: center;">
+            					<span style="">FROM</span>
+	                		</div>
+	                		<div style="width: 50%;">
+	                			<input type="text" value="1" class="range_to form-control" placeholder="to" onchange="update_word_query(w${window.counter})" style="text-align: center;">
+            					<span style="margin: 0% 1%; width: 100%;">TO</span>
+	                		</div>
+	                	</div>
+	                    <div class="col-md-3 row" style="margin:2% 0% 0% 0%;text-align: center;padding: 0% 1%;">
+	                		<input type="text" value="w${window.counter}" class="variable_name form-control" onchange="update_word_query(w${window.counter})" style="width: 100%; margin: 0% 1%; text-align: center;">
+	                		<!--<span style="margin: 0% 1%; width: 100%;">VARIABLE NAME</span>-->
+	                	</div>
+	                	<div class="col-md-3" style="margin:2% 0% 0% 0%;text-align: center;padding: 0;">
+	                		<button type="submit" onclick="delete_word(w${window.counter})" class="btn btn-danger" style="width:100%;">Delete Word</button>
+	                	</div>
 	                </div>
 	                <div class="word_property_list card-body" style="display: flex; flex-flow: row nowrap; flex-shrink: 0; overflow-x: auto;padding-left: 0.1%;padding-right: 0.1%;">
 	                </div>
