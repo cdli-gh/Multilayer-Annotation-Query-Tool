@@ -9,12 +9,11 @@ var dependencycounter=0;
 var word_dependency_id_list=[]
 
 function or_property(block,word){
-	var prop=block.parentElement.parentElement.getElementsByClassName("inside_card")[0];
-
+	var prop=block.parentElement.parentElement.parentElement.getElementsByClassName("inside_card")[0];
 	property_selector=`
 	<div style="text-align: center; color: rgb(102, 102, 102);">OR</div>
 	<select class="property_name form-control" style="width: 100%;">
-        <option value="None" disabled selected>Feature</option>
+        <option value="None" disabled="" selected="">Feature</option>
         <option value="ID">ID</option>
         <option value="FORM">FORM</option>
         <option value="LEMMA">LEMMA</option>
@@ -23,8 +22,8 @@ function or_property(block,word){
         <option value="FEATS">FEATS</option>
         <option value="DEPREL">DEPREL</option>
     </select>
-	<i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
-	<input type="text" class="property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">`;
+    <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
+    <input type="text" class="property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">`;
 
 	$(prop).append(property_selector);	
 }
@@ -36,10 +35,14 @@ function add_property(word){
 	<div class="and" style="color: rgb(102, 102, 102); display: flex; justify-content: center; flex-direction: column; text-align: center;">AND</div>
 	`;
 	content=`
-	<div class="card shadow" style="min-width: 20vw; width: 20vw;">
-        <div class="card-header header_card">
-            <button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 40%; float: left; margin: 1%;">OR</button>
-            <button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 40%; float: right; margin: 1%;">Delete</button>
+	<div class="card shadow" style="min-width:200px; width: 200px;">
+        <div class="card-header header_card row">
+            <div class="col-md-6" style="padding:1%;">
+            	<button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 100%;">OR</button>
+            </div>
+            <div class="col-md-6" style="padding:1%;">
+            	<button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 100%;">Delete</button>
+            </div>
         </div>
         <div class="inside_card card-body" style="width: 100%; margin: 1%;">
             <select class="property_name form-control" style="width: 100%;">
@@ -467,7 +470,7 @@ function delete_word(word){
 }
 
 function delete_property(block,word){
-	var prop=block.parentElement.parentElement;
+	var prop=block.parentElement.parentElement.parentElement;
 	if(prop.previousElementSibling!=null && prop.previousElementSibling.textContent=="AND"){
 		prop.previousElementSibling.remove();
 	}
