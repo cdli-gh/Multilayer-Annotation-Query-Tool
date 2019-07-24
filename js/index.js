@@ -37,10 +37,10 @@ function add_property(word){
 	content=`
 	<div class="card shadow" style="min-width:200px; width: 200px;">
         <div class="card-header header_card row">
-            <div class="col-md-6" style="padding:1%;">
+            <div class="col-lg-6" style="padding:1%;">
             	<button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 100%;">OR</button>
             </div>
-            <div class="col-md-6" style="padding:1%;">
+            <div class="col-lg-6" style="padding:1%;">
             	<button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 100%;">Delete</button>
             </div>
         </div>
@@ -84,10 +84,10 @@ function add_word(){
 	        <div class="card-body" style="padding: 0;">
 	            <div class="word card" style="border-radius: 0%;">
 	                <div class="card-header row" style="border-radius: 0%;margin: 0%;">
-	                    <div class="col-md-3" style="padding: 0% 1%; margin:2% 0% 0% 0%;">
+	                    <div class="col-lg-3" style="padding: 0% 1%; margin:2% 0% 0% 0%;">
 							<button type="submit" onclick="add_property(w${window.counter})" class="btn btn-primary" style="width:100%;">Add Property</button>
 						</div>
-	                    <div class="col-md-3 row" style="margin:2% 0% 0% 0%;text-align: center;padding: 0% 1%;">
+	                    <div class="col-lg-3 row" style="margin:2% 0% 0% 0%;text-align: center;padding: 0% 1%;">
 	                		<div style="width: 50%;">
 	                			<input type="text" value="1" class="range_from form-control" placeholder="FROM" onchange="update_word_query(w${window.counter})" style="text-align: center;">
             					<span style="">FROM</span>
@@ -97,11 +97,11 @@ function add_word(){
             					<span style="margin: 0% 1%; width: 100%;">TO</span>
 	                		</div>
 	                	</div>
-	                    <div class="col-md-3 row" style="margin:2% 0% 0% 0%;text-align: center;padding: 0% 1%;">
+	                    <div class="col-lg-3 row" style="margin:2% 0% 0% 0%;text-align: center;padding: 0% 1%;">
 	                		<input type="text" value="w${window.counter}" class="variable_name form-control" onchange="update_word_query(w${window.counter})" style="width: 100%; margin: 0% 1%; text-align: center;">
 	                		<!--<span style="margin: 0% 1%; width: 100%;">VARIABLE NAME</span>-->
 	                	</div>
-	                	<div class="col-md-3" style="margin:2% 0% 0% 0%;text-align: center;padding: 0;">
+	                	<div class="col-lg-3" style="margin:2% 0% 0% 0%;text-align: center;padding: 0;">
 	                		<button type="submit" onclick="delete_word(w${window.counter})" class="btn btn-danger" style="width:100%;">Delete Word</button>
 	                	</div>
 	                </div>
@@ -248,51 +248,58 @@ function add_dependency(add_sequence_dependency=false){
 	<div class="card shadow" id=d${window.dependencycounter}>
 	    <div class="card-header" id="dependencyheading${window.dependencycounter}" style="padding: 0;">
 	        <h5 class="mb-0">
-				<button class="btn" type="button" data-toggle="collapse" data-target="#dependencycollapse${window.dependencycounter}" aria-expanded="true" aria-controls="dependencycollapse${window.dependencycounter}" style="margin: 0; width: 100%; height: 100%;">
+				<button class="btn" type="button" data-toggle="collapse" data-target="#dependencycollapse${window.dependencycounter}" aria-expanded="true" aria-controls="dependencycollapse1" style="margin: 0; width: 100%; height: 100%;">
 					d${window.dependencycounter}
 				</button>
 			</h5>
 	    </div>
 	    <div id="dependencycollapse${window.dependencycounter}" class="collapse" aria-labelledby="dependencyheading${window.dependencycounter}">
 	        <div class="dependency card" style="margin:0%;border-radius:0;">
-			    <div class="card-header" style="border-radius:0;">
-			        <button type="submit" onclick="delete_dependency(d${window.dependencycounter})" class="btn btn-danger" style="float: right;">Delete Dependency</button>
+			    <div class="card-header row" style="border-radius:0;margin: 0%;">
+			        <button type="submit" onclick="delete_dependency(d${window.dependencycounter})" class="btn btn-danger col-xs-12" style="width: 100%;">Delete Dependency</button>
 			    </div>
-			    <div class="card-body" style="display: flex; align-items: center; justify-content: center;">
-			        <select class="word_left form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%;">
-			            <option value="None" disabled selected>Left Variable</option>
-			        </select>
-			        <select class="dependency_type form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
-			            <option value="None" disabled selected>Dependency</option>
-			            <optgroup label="Linear">
-			            	<option value="before" selected=${add_sequence_dependency}>Before</option>
-			            	<option value="after">After</option>
-			            	<option value="before_after" deactivated>Before/After</option>
-			            </optgroup>
-			            <optgroup label="Syntactic">
-			            	<option value="head">Head</option>
-			            	<option value="child">Child</option>
-			            	<option value="head_child" deactivated>Head/Child</option>
-			            </optgroup>
-			        </select>
-			        <select class="proximity form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%; text-align: center;">
-			        	<option value="adjoining" selected=${add_sequence_dependency}>Adjoining</option>
-			        	<option value="range">Range</option>
-			        	<option value="any">Any</option>
-			        </select>
-			        <select class="word_right form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 30%;">
-			            <option value="None" disabled selected>Right Variable</option>
-			        </select>
-			    </div>
-
-				<div class="slider" style="margin:0% 5% 2% 5%; display:inline;">
-					<center>
-					<span class="left_value" style="width:10%;"></span>
-					<span> - </span>
-					<span class="right_value" style="width:10%;"></span>
-				    </center>
-				    <div class="test-slider"></div>
-				</div>	
+			    <div class="card-body row" style="display: flex; align-items: center; justify-content: center; margin: 0%;">
+			    	<div class="col-md-12">
+				        <select class="word_left form-control" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 100%;">
+				            <option value="None" disabled selected>Left Variable</option>
+				        </select>
+			        </div>
+			        <div class="col-md-12">
+			        	<select class="dependency_type form-control col-md-12" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 100%; text-align: center;">
+				            <option value="None" disabled selected>Dependency</option>
+				            <optgroup label="Linear">
+				            	<option value="before" selected=${add_sequence_dependency}>Before</option>
+				            	<option value="after">After</option>
+				            	<option value="before_after" deactivated>Before/After</option>
+				            </optgroup>
+				            <optgroup label="Syntactic">
+				            	<option value="head">Head</option>
+				            	<option value="child">Child</option>
+				            	<option value="head_child" deactivated>Head/Child</option>
+				            </optgroup>
+			        	</select>
+			        </div>
+			        <div class="col-md-12">
+				        <select class="proximity form-control col-md-12" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 100%; text-align: center;">
+				        	<option value="adjoining" selected=${add_sequence_dependency}>Adjoining</option>
+				        	<option value="range">Range</option>
+				        	<option value="any">Any</option>
+				        </select>
+			        </div>
+			        <div class="col-md-12">
+				        <select class="word_right form-control col-md-12" onchange="update_dependency_query(d${window.dependencycounter})" style="flex: 1 1 0%; margin: 1%; width: 100%;">
+				            <option value="None" disabled selected>Right Variable</option>
+				        </select>
+			        </div>
+			        <div class="slider col-md-12" style="margin:0% 5% 2% 5%; display:inline;">
+						<center>
+							<span class="left_value" style="width:10%;"></span>
+							<span> - </span>
+							<span class="right_value" style="width:10%;"></span>
+					    </center>
+					    <div class="test-slider"></div>
+					</div>
+			    </div>	
 
 			</div>
 	    </div>
