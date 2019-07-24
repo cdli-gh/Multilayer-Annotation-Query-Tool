@@ -24,7 +24,7 @@ function or_property(block,word){
         <option value="DEPREL">DEPREL</option>
     </select>
     <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
-    <input type="text" class="property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">`;
+    <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">`;
 
 	$(prop).append(property_selector);	
 }
@@ -58,7 +58,7 @@ function add_property(word){
                 <option value="DEPREL">DEPREL</option>
             </select>
             <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
-            <input type="text" class="property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">
+            <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">
         </div>
     </div>
 	`;
@@ -299,7 +299,7 @@ function add_dependency(add_sequence_dependency=false){
 							<span> - </span>
 							<span class="right_value" style="width:10%;"></span>
 					    </center>
-					    <div class="test-slider"></div>
+					    <div class="test-slider" id=slider_${window.dependencycounter}></div>
 					</div>
 			    </div>	
 
@@ -326,9 +326,10 @@ function add_dependency(add_sequence_dependency=false){
 
 	var snapValues = [ left_value,right_value ];
 
+	// dep_id=$(`#d${window.dependencycounter}`)[0];
 	slider.noUiSlider.on('update', function (values, handle) {
     	snapValues[handle].textContent = parseInt(values[handle]);
-    	update_dependency_query($(`#d${window.dependencycounter}`)[0]);
+    	update_dependency_query(this.target.parentElement.parentElement.parentElement.parentElement.parentElement);
 	});
 
 	window.dependency_id_list.push(`d${window.dependencycounter}`);
@@ -366,6 +367,7 @@ function update_dependency_query(dependency){
 		dist="";
 		if(p=="range"){
 			dist=`{${from},${to}}`;
+			console.log(dist);
 		}
 		else if(p=="any"){
 			dist="*";
