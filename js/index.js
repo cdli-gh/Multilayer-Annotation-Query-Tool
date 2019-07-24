@@ -15,6 +15,7 @@ function or_property(block,word){
 	<select class="property_name form-control" style="width: 100%;">
         <option value="None" disabled="" selected="">Feature</option>
         <option value="ID">ID</option>
+        <option value="CDLI_ID">CDLI_ID</option>
         <option value="FORM">FORM</option>
         <option value="LEMMA">LEMMA</option>
         <option value="UPOSTAG">UPOSTAG</option>
@@ -36,7 +37,7 @@ function add_property(word){
 	`;
 	content=`
 	<div class="card shadow" style="min-width:200px; width: 200px;">
-        <div class="card-header header_card row">
+        <div class="card-header header_card row" style="margin:0%;">
             <div class="col-lg-6" style="padding:1%;">
             	<button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 100%;">OR</button>
             </div>
@@ -48,6 +49,7 @@ function add_property(word){
             <select class="property_name form-control" style="width: 100%;">
                 <option value="None" disabled="" selected="">Feature</option>
                 <option value="ID">ID</option>
+                <option value="CDLI_ID">CDLI_ID</option>
                 <option value="FORM">FORM</option>
                 <option value="LEMMA">LEMMA</option>
                 <option value="UPOSTAG">UPOSTAG</option>
