@@ -23,7 +23,7 @@ function or_property(block,word){
         <option value="FEATS">FEATS</option>
         <option value="DEPREL">DEPREL</option>
     </select>
-    <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
+    <em class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
     <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">`;
 
 	$(prop).append(property_selector);	
@@ -57,7 +57,7 @@ function add_property(word){
                 <option value="FEATS">FEATS</option>
                 <option value="DEPREL">DEPREL</option>
             </select>
-            <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
+            <em class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
             <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">
         </div>
     </div>
@@ -272,12 +272,12 @@ function add_dependency(add_sequence_dependency=false){
 				            <optgroup label="Linear">
 				            	<option value="before" selected=${add_sequence_dependency}>Before</option>
 				            	<option value="after">After</option>
-				            	<option value="before_after" deactivated>Before/After</option>
+				            	<option value="before_after" disabled>Before/After</option>
 				            </optgroup>
 				            <optgroup label="Syntactic">
 				            	<option value="head">Head</option>
 				            	<option value="child">Child</option>
-				            	<option value="head_child" deactivated>Head/Child</option>
+				            	<option value="head_child" disabled>Head/Child</option>
 				            </optgroup>
 			        	</select>
 			        </div>
@@ -293,12 +293,10 @@ function add_dependency(add_sequence_dependency=false){
 				            <option value="None" disabled selected>Right Variable</option>
 				        </select>
 			        </div>
-			        <div class="slider col-md-12" style="margin:0% 5% 2% 5%; display:inline;">
-						<center>
-							<span class="left_value" style="width:10%;"></span>
-							<span> - </span>
-							<span class="right_value" style="width:10%;"></span>
-					    </center>
+			        <div class="slider col-md-12" style="margin:0% 5% 2% 5%; display:inline;text-align: center;">
+						<span class="left_value" style="width:10%;"></span>
+						<span> - </span>
+						<span class="right_value" style="width:10%;"></span>
 					    <div class="test-slider" id=slider_${window.dependencycounter}></div>
 					</div>
 			    </div>	
