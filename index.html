@@ -13,8 +13,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.js"></script>
 	<script src="js/index.js"></script>
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="description" content="A Corpus Query Tool">
 	<style type="text/css">
 		.row{
 			margin: 1%;
@@ -39,8 +39,11 @@
 	</style>
 </head>
 <body style="padding:5vw;">
-	<textarea id="cqp" class="form-control shadow" style="height:10vh; overflow-y: auto; width:100%;">
+	<h1 style="text-align: center;">CQP Query</h1>
+	<!-- <label for="cqp" class="h1">CQP Query</label> -->
+	<textarea id="cqp" class="form-control shadow" style="height:10vh; overflow-y: auto; width:100%;" title="cqp query">
 	</textarea>
+
 	<br>
 	<div class="card shadow">
 	    <div class="card-header" style="background-color: #E8EBEF">
@@ -50,17 +53,17 @@
 	    	<div class="row">
 		        <div class="col-xs-12 col-md-4" style="padding: 1% 5%">
 			        <button type="submit" class="btn btn-primary" style="width: 100%" onclick="add_word()">
-			            ADD WORD
+			            <strong>ADD WORD</strong>
 			        </button>
 			    </div>
 			    <div class="col-xs-12 col-md-4" style="padding: 1% 5%">
 			        <button type="submit" class="btn btn-success" style="width: 100%" onclick="write_query()">
-			            GENERATE QUERY
+			            <strong>GENERATE QUERY</strong>
 			        </button>
 			    </div>
 			    <div class="col-xs-12 col-md-4" style="padding: 1% 5%">
 		        	<button type="submit" class="btn btn-primary" onclick="add_dependency()" style="width: 100%">
-		        	ADD DEPENDENCY
+		        	<strong>ADD DEPENDENCY</strong>
 		        	</button>
 		        </div>
 		    </div>
@@ -79,7 +82,8 @@
 					            <div class="word card" style="border-radius: 0%;">
 					                <div class="card-header row" style="border-radius: 0%;margin: 0%;">
 					                    <div class="col-lg-3" style="padding: 0% 1%; margin:2% 0% 0% 0%;">
-											<button type="submit" onclick="add_property(w1)" class="btn btn-primary" style="width:100%;">Add Property</button>
+											<button type="submit" onclick="add_property(w1)" class="btn btn-primary" style="width:100%;">		<strong>Add Property</strong>
+											</button>
 										</div>
 					                    <div class="col-lg-3 row" style="margin:2% 0% 0% 0%;text-align: center;padding: 0% 1%;">
 					                		<div style="width: 50%;">
@@ -96,22 +100,26 @@
 					                		<!--<span style="margin: 0% 1%; width: 100%;">VARIABLE NAME</span>-->
 					                	</div>
 					                	<div class="col-lg-3" style="margin:2% 0% 0% 0%;text-align: center;padding: 0;">
-					                		<button type="submit" onclick="delete_word(w1)" class="btn btn-danger" style="width:100%;">Delete Word</button>
+					                		<button type="submit" onclick="delete_word(w1)" class="btn btn-danger" style="width:100%;">			<strong>Delete Word</strong>
+					                		</button>
 					                	</div>
 					                </div>
 					                <div class="word_property_list card-body" style="display: flex; flex-flow: row nowrap; flex-shrink: 0; overflow-x: auto;padding-left: 0.1%;padding-right: 0.1%;">
 				                		<div class="card shadow" style="min-width:200px; width: 200px;">
 				                	        <div class="card-header header_card row" style="margin:0%;">
 				                	            <div class="col-lg-6" style="padding:1%;">
-				                	            	<button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 100%;">OR</button>
+				                	            	<button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 100%;">	<strong>OR</strong>
+				                	            	</button>
 				                	            </div>
 				                	            <div class="col-lg-6" style="padding:1%;">
-				                	            	<button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 100%;">Delete</button>
+				                	            	<button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 100%;">
+				                	            		<strong>Delete</strong>
+				                	            	</button>
 				                	            </div>
 				                	        </div>
 				                	        <div class="inside_card card-body" style="width: 100%; margin: 1%;">
 				                	            <select class="property_name form-control" style="width: 100%;">
-				                	                <option value="None" disabled="" selected="">Feature</option>
+				                	                <option value="None" disabled selected="">Feature</option>
 				                	                <option value="ID">ID</option>
 				                	                <option value="CDLI_ID">CDLI_ID</option>
 				                	                <option value="FORM">FORM</option>
@@ -121,7 +129,7 @@
 				                	                <option value="FEATS">FEATS</option>
 				                	                <option value="DEPREL">DEPREL</option>
 				                	            </select>
-				                	            <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
+				                	            <em class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
 				                	            <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">
 				                	        	<div style="text-align: center; color: rgb(102, 102, 102);">OR</div>
 				                	        	<select class="property_name form-control" style="width: 100%;">
@@ -135,7 +143,7 @@
 				                	                <option value="FEATS">FEATS</option>
 				                	                <option value="DEPREL">DEPREL</option>
 				                	            </select>
-				                	            <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
+				                	            <em class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
 				                	            <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">
 				                	        </div>
 				                	    </div>
@@ -161,7 +169,7 @@
 				                	                <option value="FEATS">FEATS</option>
 				                	                <option value="DEPREL">DEPREL</option>
 				                	            </select>
-				                	            <i class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></i>
+				                	            <em class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
 				                	            <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">
 				                	        </div>
 				                	    </div>
