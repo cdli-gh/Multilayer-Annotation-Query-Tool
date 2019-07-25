@@ -23,7 +23,7 @@ function or_property(block,word){
         <option value="FEATS">FEATS</option>
         <option value="DEPREL">DEPREL</option>
     </select>
-    <em class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
+    <em class="property_rel fa fa-equals" tabindex=0 onclick="inverse(this,${word.id})" onkeyup="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
     <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">`;
 
 	$(prop).append(property_selector);	
@@ -39,10 +39,14 @@ function add_property(word){
 	<div class="card shadow" style="min-width:200px; width: 200px;">
         <div class="card-header header_card row" style="margin:0%;">
             <div class="col-lg-6" style="padding:1%;">
-            	<button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 100%;">OR</button>
+            	<button type="submit" onclick="or_property(this,${word.id})" class="btn btn-primary" style="width: 100%;">
+            		<strong>OR</strong>
+            	</button>
             </div>
             <div class="col-lg-6" style="padding:1%;">
-            	<button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 100%;">Delete</button>
+            	<button type="submit" onclick="delete_property(this,${word.id})" class="btn btn-danger" style="width: 100%;">
+            		<strong>Delete</strong>
+            	</button>
             </div>
         </div>
         <div class="inside_card card-body" style="width: 100%; margin: 1%;">
@@ -57,7 +61,7 @@ function add_property(word){
                 <option value="FEATS">FEATS</option>
                 <option value="DEPREL">DEPREL</option>
             </select>
-            <em class="property_rel fa fa-equals" onclick="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
+            <em class="property_rel fa fa-equals" tabindex=0 onclick="inverse(this,${word.id})" onkeyup="inverse(this,${word.id})" style="margin: 0px 45%;"></em>
             <input type="text" class="form-control property_value" onchange="update_word_query(${word.id})" style="width: 100%; margin: 1%;">
         </div>
     </div>
@@ -87,7 +91,9 @@ function add_word(){
 	            <div class="word card" style="border-radius: 0%;">
 	                <div class="card-header row" style="border-radius: 0%;margin: 0%;">
 	                    <div class="col-lg-3" style="padding: 0% 1%; margin:2% 0% 0% 0%;">
-							<button type="submit" onclick="add_property(w${window.counter})" class="btn btn-primary" style="width:100%;">Add Property</button>
+							<button type="submit" onclick="add_property(w${window.counter})" class="btn btn-primary" style="width:100%;">
+								<strong>Add Property</strong>
+							</button>
 						</div>
 	                    <div class="col-lg-3 row" style="margin:2% 0% 0% 0%;text-align: center;padding: 0% 1%;">
 	                		<div style="width: 50%;">
@@ -104,7 +110,9 @@ function add_word(){
 	                		<!--<span style="margin: 0% 1%; width: 100%;">VARIABLE NAME</span>-->
 	                	</div>
 	                	<div class="col-lg-3" style="margin:2% 0% 0% 0%;text-align: center;padding: 0;">
-	                		<button type="submit" onclick="delete_word(w${window.counter})" class="btn btn-danger" style="width:100%;">Delete Word</button>
+	                		<button type="submit" onclick="delete_word(w${window.counter})" class="btn btn-danger" style="width:100%;">
+	                			<strong>Delete Word</strong>
+	                		</button>
 	                	</div>
 	                </div>
 	                <div class="word_property_list card-body" style="display: flex; flex-flow: row nowrap; flex-shrink: 0; overflow-x: auto;padding-left: 0.1%;padding-right: 0.1%;">
@@ -258,7 +266,9 @@ function add_dependency(add_sequence_dependency=false){
 	    <div id="dependencycollapse${window.dependencycounter}" class="collapse" aria-labelledby="dependencyheading${window.dependencycounter}">
 	        <div class="dependency card" style="margin:0%;border-radius:0;">
 			    <div class="card-header row" style="border-radius:0;margin: 0%;">
-			        <button type="submit" onclick="delete_dependency(d${window.dependencycounter})" class="btn btn-danger col-xs-12" style="width: 100%;">Delete Dependency</button>
+			        <button type="submit" onclick="delete_dependency(d${window.dependencycounter})" class="btn btn-danger col-xs-12" style="width: 100%;">
+			        	<strong>Delete Dependency</strong>
+			        </button>
 			    </div>
 			    <div class="card-body row" style="display: flex; align-items: center; justify-content: center; margin: 0%;">
 			    	<div class="col-md-12">
