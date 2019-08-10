@@ -11,7 +11,200 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.js"></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
 	<script src="js/index.js"></script>
+	<script type="text/javascript">
+        myVar = send_config(
+        	{
+        	   "grammar": "../cqp.ebnf",
+        	   "default": "armenian-eanc",
+        	   "n_results": 50,
+        	   "api": {
+        	      "port": 8080,
+        	      "host": "127.0.0.1"
+        	   },
+        	   "sparql": {
+        	      "host": "http://127.0.0.1:3030/",
+        	      "endpoint": "test/sparql"
+        	   },
+        	   "corpora": {
+        	      "common": {
+        	         "iri": null,
+        	         "prefixes": {
+        	            "conll": "http://ufal.mff.cuni.cz/conll2009-st/task-description.html#",
+        	            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        	            "terms": "http://purl.org/acoli/open-ie/",
+        	            "nif": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#",
+        	            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        	            "system": "http://purl.org/olia/system.owl#",
+        	            "olia": "http://purl.org/olia/olia.owl#",
+        	            "powla": "http://purl.org/powla/powla.owl#",
+        	            "eanc": "http://purl.org/olia/eanc.owl#",
+        	            "xsd": "http://www.w3.org/2001/XMLSchema#"
+        	         }
+        	      },
+        	      "armenian-eanc": {
+        	         "name": "EANC fragment (fiction)",
+        	         "iri": "http://acoli.cs.uni-frankfurt.de/corpora/armenian-eanc",
+        	         "prefixes": {
+        	            "conll": "http://ufal.mff.cuni.cz/conll2009-st/task-description.html#",
+        	            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        	            "terms": "http://purl.org/acoli/open-ie/",
+        	            "nif": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#",
+        	            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        	            "system": "http://purl.org/olia/system.owl#",
+        	            "olia": "http://purl.org/olia/olia.owl#",
+        	            "powla": "http://purl.org/powla/powla.owl#",
+        	            "eanc": "http://purl.org/olia/eanc.owl#",
+        	            "xsd": "http://www.w3.org/2001/XMLSchema#"
+        	         },
+        	         "order":[
+        	         	"ID",
+        	         	"CDLI_ID",
+        	         	"FORM",
+        	         	"LEMMA",
+        	         	"UPOSTAG",
+        	         	"XPOSTAG",
+        	         	"FEATS",
+        	         ],
+        	         "fields": {
+        	            "ID": {
+        	               "name": "ID",
+        	               "query": "conll:ID",
+        	               "disabled": false,
+        	               "type": "integer"
+        	            },
+        	            "CDLI_ID": {
+        	               "name": "CDLI_ID",
+        	               "query": "conll:CDLI_ID",
+        	               "disabled": false,
+        	               "type": "suggest",
+        	               "values": [
+        	                  "o.1.1",
+        	                  "o.1.2",
+        	                  "o.2.1",
+        	                  "o.2.2",
+        	                  "r.1.1",
+        	                  "r.1.2",
+        	                  "r.1.3",
+        	                  "r.1.4",
+        	                  "r.2.1",
+        	                  "r.3.1",
+        	                  "s1.1.1",
+        	                  "s1.2.1",
+        	                  "s1.3.1",
+        	                  "s1.3.2"
+        	               ]
+        	            },
+        	            "FORM": {
+        	               "name": "FORM",
+        	               "query": "conll:FORM",
+        	               "disabled": false,
+        	               "type": "suggest",
+        	               "values": [
+        	                  "f1",
+        	                  "f2"
+        	               ]
+        	            },
+        	            "LEMMA": {
+        	               "name": "LEMMA",
+        	               "query": "conll:LEMMA",
+        	               "disabled": false,
+        	               "type": "suggest",
+        	               "values": [
+        	                  "s1",
+        	                  "s2"
+        	               ]
+        	            },
+        	            "UPOSTAG": {
+        	               "name": "UPOSTAG",
+        	               "query": "conll:UPOSTAG",
+        	               "disabled": false,
+        	               "type": "list",
+        	               "values": [
+        	                  "ADJ",
+        	                  "ADV",
+        	                  "NUM",
+        	                  "CCONJ",
+        	                  "DET",
+        	                  "INTJ",
+        	                  "NOUN",
+        	                  "VERB",
+        	                  "ADP",
+        	                  "PROPN"
+        	               ]
+        	            },
+        	            "XPOSTAG": {
+        	               "name": "XPOSTAG",
+        	               "query": "conll:XPOSTAG",
+        	               "disabled": false,
+        	               "type": "list",
+        	               "values": [
+        	                  "AJ",
+        	                  "AV",
+        	                  "NU",
+        	                  "CNJ",
+        	                  "DET",
+        	                  "J",
+        	                  "N",
+        	                  "V",
+        	                  "PRP",
+        	                  "DN",
+        	                  "EN",
+        	                  "GN",
+        	                  "MN",
+        	                  "PN",
+        	                  "RN",
+        	                  "SN",
+        	                  "TN",
+        	                  "WN",
+        	                  "AN",
+        	                  "CN",
+        	                  "FN",
+        	                  "LN",
+        	                  "ON",
+        	                  "QN",
+        	                  "YN"
+        	               ]
+        	            },
+        	            "FEATS": {
+        	               "name": "FEATS",
+        	               "query": "conll:FEATS",
+        	               "disabled": true,
+        	               "type": "list",
+        	               "values": [
+        	                  "Case",
+        	                  "Animacy",
+        	                  "Number",
+        	                  "Polarity",
+        	                  "Person",
+        	                  "Aspect",
+        	                  "Verb Form",
+        	                  "Mood",
+        	                  "Voice"
+        	               ]
+        	            }
+        	         }
+        	      },
+        	      "batsbi-flex": {
+        	         "name": "Batsbi text collection",
+        	         "iri": "http://acoli.cs.uni-frankfurt.de/corpora/batsbi-flex",
+        	         "prefixes": {
+        	            "conll": "http://ufal.mff.cuni.cz/conll2009-st/task-description.html#",
+        	            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        	            "terms": "http://purl.org/acoli/open-ie/",
+        	            "nif": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#",
+        	            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        	            "system": "http://purl.org/olia/system.owl#",
+        	            "olia": "http://purl.org/olia/olia.owl#",
+        	            "powla": "http://purl.org/powla/powla.owl#",
+        	            "xsd": "http://www.w3.org/2001/XMLSchema#"
+        	         }
+        	      }
+        	   }
+        	});
+    </script>
+
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta name="description" content="A Corpus Query Tool">
