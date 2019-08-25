@@ -1,21 +1,14 @@
-# Multi-Layer Annotation Querying Tool 
+# Multi-Layer Annotation Querying Tool  
 
-### About the Project
-This is a tool to integrate into a website that has the capacity to query through multiple layers of linguistic annotations like morphology, syntax and semantics annotations. 
+### About the Project 
+This project is the GUI for CQP4RDF tool, which is used to query the annotations of a corpus. 
 
-- Would be able to search through the complete data when a word or the
-annotations of the word or both are defined.
-- Also, the system would be able to search for a combination of such word queries.
-- The data is queried from RDF format which is flexible and will help integrate into a linked open data toolbox for computation. 
-- Also, the tool will have a query language or a form which will be easy to use for non-technical people. 
-- It will also highlight the results in the retrieved document which resulted in the retrieval of the document. 
-- The tool will also return data in a format that allows for easy integration into any website.
+The tutorial of using the GUI can be seen at [here](https://github.com/cdli-gh/Multilayer-Annotation-Query-Tool/blob/master/TUTORIAL.md).
+
+**This tool is the just the GUI for Query Generator for  [CQP4RDF](https://github.com/cdli-gh/cqp4rdf).**
+
+**The demo for the project can be seen at https://cdli-gh.github.io/Multilayer-Annotation-Query-Tool/**
 
 
-### Tool Used :- CQP4RDF
 
-As a backend, we have used a tool CQP4RDF.
-Why CQP?
-How CQP4RDF is helping us?
-Data?
 
